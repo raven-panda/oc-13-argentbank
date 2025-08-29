@@ -5,11 +5,13 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function MainLayout() {
   return (
-    <main>
+    <>
       <NavHeader />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
 
@@ -27,5 +29,9 @@ function NavHeader() {
 }
 
 function Footer() {
-  return <p className={styles.mainFooter}>Copyright 2020 Argent Bank</p>;
+  return (
+    <footer className={styles.mainFooter}>
+      <p>Copyright 2020 Argent Bank</p>
+    </footer>
+  );
 }
