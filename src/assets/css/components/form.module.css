@@ -1,0 +1,23 @@
+.inputTextWrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.inputTextWrapper label {
+  font-weight: bold;
+}
+
+.inputTextWrapper input {
+  padding: 5px;
+  font-size: 1.2rem;
+}
+
+.inputCheckboxWrapper {
+  display: flex;
+}
+
+.inputCheckboxWrapper label {
+  margin-left: 0.25rem;
+}
