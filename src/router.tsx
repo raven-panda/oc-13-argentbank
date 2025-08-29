@@ -6,6 +6,7 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import MainLayout from './components/MainLayout';
 import HomePage from './views/HomePage';
+import SignInPage from './views/SignInPage';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -28,9 +29,7 @@ const routes = [
   createRoute({
     getParentRoute: () => rootRoute,
     path: '/sign-in',
-    component: function SignInPage() {
-      return <div>WIP</div>;
-    },
+    component: SignInPage,
   }),
 ];
 
