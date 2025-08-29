@@ -1,5 +1,5 @@
 import { Link, Outlet } from '@tanstack/react-router';
-import styles from '../assets/css/layout.module.css';
+import styles from '../assets/css/components/layout.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
