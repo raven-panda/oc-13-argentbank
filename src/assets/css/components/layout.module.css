@@ -5,6 +5,11 @@
   padding: 5px 20px;
 }
 
+.mainNavHeader > * {
+  text-decoration: none;
+  margin-right: 0.5rem;
+}
+
 .mainNavHeader img {
   display: block;
 }
@@ -12,7 +17,6 @@
 .signInButton {
   font-weight: bold;
   color: #2c3e50;
-  text-decoration: none;
 }
 
 .mainFooter {
