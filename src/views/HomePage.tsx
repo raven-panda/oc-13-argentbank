@@ -2,7 +2,7 @@ import styles from '../assets/css/home-page.module.css';
 
 export default function HomePage() {
   return (
-    <>
+    <main>
       <Hero />
       <section className={styles.featuresContainer}>
         <FeatureItem
@@ -24,7 +24,7 @@ export default function HomePage() {
           description="We use top of the line encryption to make sure your data and money is always safe."
         />
       </section>
-    </>
+    </main>
   );
 }
 
