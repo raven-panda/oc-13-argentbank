@@ -666,10 +666,27 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.46.2.tgz#87079f137b5fdb75da11508419aa998cc8cc3d8b"
   integrity sha512-CvUo2ixeIQGtF6WvuB87XWqPQkoFAFqW+HUo/WzHwuHDvIwZCtjdWXoYCcr06iKGydiqTclC4jU/TNObC/xKZg==
 
+"@tanstack/form-core@1.19.3":
+  version "1.19.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.19.3.tgz#a4d15a6c834e0737a73601788fe1e543848ea024"
+  integrity sha512-VUDKpR24kfKHh43nGtDExZtwpq1MMNmN0mrYbqNOOjOoOUm9yZ0fPxWjPBfJQOdvmyncV2Svg9I5klUPjXqWzA==
+  dependencies:
+    "@tanstack/store" "^0.7.4"
+
 "@tanstack/history@1.129.7":
   version "1.129.7"
   resolved "https://registry.yarnpkg.com/@tanstack/history/-/history-1.129.7.tgz#aef0836a260f859ad564394b732814b5ad313d2d"
   integrity sha512-I3YTkbe4RZQN54Qw4+IUhOjqG2DdbG2+EBWuQfew4MEk0eddLYAQVa50BZVww4/D2eh5I9vEk2Fd1Y0Wty7pug==
+
+"@tanstack/react-form@^1.19.3":
+  version "1.19.3"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-form/-/react-form-1.19.3.tgz#47b6df278cf83f6b61a702b9cc5c636c545ceafd"
+  integrity sha512-e9m/aAemSIfM9Qesk6xeXiBdXLRhZPnQp4QVp/epcaaA6peBCYS0rBL9fuLKGrL4LRyDIA4jA68XR0Mxq0yO4A==
+  dependencies:
+    "@tanstack/form-core" "1.19.3"
+    "@tanstack/react-store" "^0.7.4"
+    decode-formdata "^0.9.0"
+    devalue "^5.3.2"
 
 "@tanstack/react-router-devtools@^1.130.9":
   version "1.130.9"
@@ -696,6 +713,14 @@
   integrity sha512-3Dnqtbw9P2P0gw8uUM8WP2fFfg8XMDSZCTsywRPZe/XqqYW8PGkXKZTvP0AHkE4mpqP9Y43GpOg9vwO44azu6Q==
   dependencies:
     "@tanstack/store" "0.7.2"
+    use-sync-external-store "^1.5.0"
+
+"@tanstack/react-store@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-store/-/react-store-0.7.4.tgz#0c781e0684c637332331236f87ddfa71eb762547"
+  integrity sha512-DyG1e5Qz/c1cNLt/NdFbCA7K1QGuFXQYT6EfUltYMJoQ4LzBOGnOl5IjuxepNcRtmIKkGpmdMzdFZEkevgU9bQ==
+  dependencies:
+    "@tanstack/store" "0.7.4"
     use-sync-external-store "^1.5.0"
 
 "@tanstack/router-core@1.130.9":
@@ -770,6 +795,11 @@
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@tanstack/store/-/store-0.7.2.tgz#2e04dac17f7d904539eeb797d8ba0058cee4edf7"
   integrity sha512-RP80Z30BYiPX2Pyo0Nyw4s1SJFH2jyM6f9i3HfX4pA+gm5jsnYryscdq2aIQLnL4TaGuQMO+zXmN9nh1Qck+Pg==
+
+"@tanstack/store@0.7.4", "@tanstack/store@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@tanstack/store/-/store-0.7.4.tgz#11345771f9e88eda8e2911a67ea4e1db0fde6adb"
+  integrity sha512-F1XqZQici1Aq6WigEfcxJSml92nW+85Om8ElBMokPNg5glCYVOmPkZGIQeieYFxcPiKTfwo0MTOQpUyJtwncrg==
 
 "@tanstack/virtual-file-routes@1.129.7":
   version "1.129.7"
@@ -1183,10 +1213,20 @@ debug@^4.1.0, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.4.1:
   dependencies:
     ms "^2.1.3"
 
+decode-formdata@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/decode-formdata/-/decode-formdata-0.9.0.tgz#fa9c0c0ea0a279d6d1ea825c156534d2d5fa6721"
+  integrity sha512-q5uwOjR3Um5YD+ZWPOF/1sGHVW9A5rCrRwITQChRXlmPkxDFBqCm4jNTIVdGHNH9OnR+V9MoZVgRhsFb+ARbUw==
+
 deep-is@^0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.4.tgz#a6f2dce612fadd2ef1f519b73551f17e85199831"
   integrity sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==
+
+devalue@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.3.2.tgz#1d9a00f0d126a2f768589f236da8b67d6988d285"
+  integrity sha512-UDsjUbpQn9kvm68slnrs+mfxwFkIflOhkanmyabZ8zOYk8SMEIbJ3TK+88g70hSIeytu4y18f0z/hYHMTrXIWw==
 
 diff@^8.0.2:
   version "8.0.2"
