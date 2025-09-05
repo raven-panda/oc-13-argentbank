@@ -2,7 +2,6 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../assets/css/sign-in.module.css';
 import Form from '../components/form/Form';
-import { createFormSchema } from '../utils/FormSchema';
 
 export default function SignInPage() {
   return (
@@ -11,7 +10,7 @@ export default function SignInPage() {
         <FontAwesomeIcon icon={faUserCircle} />
         <h1>Sign In</h1>
         <Form
-          schema={createFormSchema({
+          definitionSchema={{
             username: {
               defaultValue: '',
               label: 'Username',
@@ -25,7 +24,7 @@ export default function SignInPage() {
               defaultValue: true,
               label: 'Remember Me',
             },
-          })}
+          }}
           onSubmit={({ value }) => {
             console.log(value);
           }}

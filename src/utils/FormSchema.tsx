@@ -1,6 +1,6 @@
 import type { HTMLInputTypeAttribute } from 'react';
 
-interface InputFormSchema {
+export interface InputFormSchema {
   [key: string]: {
     defaultValue: any;
     label: string;

@@ -1,15 +1,17 @@
 import { useForm } from '@tanstack/react-form';
-import type { FormSchema } from '../../utils/FormSchema';
+import { createFormSchema, type InputFormSchema } from '../../utils/FormSchema';
 
 export default function Form({
-  schema,
+  definitionSchema,
   onSubmit,
   submitButtonLabel = 'Submit',
 }: {
-  schema: FormSchema;
+  definitionSchema: InputFormSchema;
   onSubmit: (value: any) => void;
   submitButtonLabel?: string;
 }) {
+  const schema = createFormSchema(definitionSchema);
+
   const form = useForm({
     defaultValues: schema.defaultValues,
     onSubmit,
