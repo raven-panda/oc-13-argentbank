@@ -21,3 +21,17 @@
 .inputCheckboxWrapper label {
   margin-left: 0.25rem;
 }
+
+.submitButton {
+  display: block;
+  border: none;
+  text-decoration: underline;
+  width: 100%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}

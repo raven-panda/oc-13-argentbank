@@ -1,5 +1,6 @@
 import { useForm } from '@tanstack/react-form';
 import { createFormSchema, type InputFormSchema } from '../../utils/FormSchema';
+import styles from '../../assets/css/components/form.module.css';
 
 export default function Form({
   definitionSchema,
@@ -26,7 +27,14 @@ export default function Form({
       }}
     >
       {Object.keys(schema.defaultValues).map((fieldName) => (
-        <div key={fieldName}>
+        <div
+          key={fieldName}
+          className={
+            schema.types[fieldName] !== 'checkbox'
+              ? styles.inputTextWrapper
+              : styles.inputCheckboxWrapper
+          }
+        >
           <form.Field
             name={fieldName}
             children={(field) => (
@@ -72,7 +80,11 @@ export default function Form({
       <form.Subscribe
         selector={(state) => [state.canSubmit, state.isSubmitting]}
         children={([canSubmit, isSubmitting]) => (
-          <button type="submit" disabled={!canSubmit}>
+          <button
+            type="submit"
+            disabled={!canSubmit}
+            className={styles.submitButton}
+          >
             {isSubmitting ? '...' : submitButtonLabel}
           </button>
         )}
