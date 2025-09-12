@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { AuthContext, useAuth } from '../../hook/AuthHooks';
 
+const TOKEN_COOKIE_NAME = 'accessToken';
 const isFixtureEnabled = import.meta.env.VITE_ENABLE_FIXTURE === 'true';
 
 /* Type Definitions */
@@ -34,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     accessToken: null,
     loading: false,
   });
-  const [, setCookie, removeCookie] = useCookies(['accessToken'], {
+  const [, setCookie, removeCookie] = useCookies([TOKEN_COOKIE_NAME], {
     doNotParse: true,
   });
 
@@ -50,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
         const accessToken = res.accessToken;
         setCookie(
-          'accessToken',
+          TOKEN_COOKIE_NAME,
           { accessToken },
           {
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
@@ -70,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
-    removeCookie('accessToken');
+    removeCookie(TOKEN_COOKIE_NAME);
     setCredentials({ username: null, accessToken: null, loading: false });
   }, [removeCookie]);
 
