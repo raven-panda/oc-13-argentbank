@@ -14,13 +14,11 @@ type AuthState = {
 };
 
 export function RequireAuthentication({ children }: { children: ReactNode }) {
-  const { isAuthenticated, loading, username } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return <div>Chargement...</div>;
   }
-
-  console.log({ isAuthenticated, username });
 
   if (!isAuthenticated) {
     return <Navigate to="/sign-in" />;
