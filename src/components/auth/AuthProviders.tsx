@@ -1,27 +1,23 @@
-import { Navigate } from '@tanstack/react-router';
 import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { AuthContext, useAuth } from '../../hook/AuthHooks';
+import type { User } from '../../services/UserService';
 
 const TOKEN_COOKIE_NAME = 'accessToken';
 const isFixtureEnabled = import.meta.env.VITE_ENABLE_FIXTURE === 'true';
 
 /* Type Definitions */
-type AuthState = {
-  username: string | null;
+export type AuthState = {
+  user: User | null;
   accessToken: string | null;
   loading: boolean;
 };
 
 export function RequireAuthentication({ children }: { children: ReactNode }) {
-  const { isAuthenticated, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
     return <div>Chargement...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/sign-in" />;
   }
 
   return children;
@@ -29,7 +25,7 @@ export function RequireAuthentication({ children }: { children: ReactNode }) {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [credentials, setCredentials] = useState<AuthState>({
-    username: null,
+    user: null,
     accessToken: null,
     loading: false,
   });
@@ -44,10 +40,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!isFixtureEnabled) throw new Error('Not implemented');
 
         const res = {
-          username,
+          user: {
+            email: username,
+            firstName: 'a',
+            lastName: 'aa',
+          },
           accessToken: btoa(password),
         };
-        const accessToken = res.accessToken;
+
+        const { user, accessToken } = res;
         setCookie(
           TOKEN_COOKIE_NAME,
           { accessToken },
@@ -57,10 +58,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             sameSite: 'strict',
           },
         );
-        setCredentials({ username: res.username, accessToken, loading: false });
+        setCredentials({ user, accessToken, loading: false });
         return { success: true };
       } catch (err) {
-        setCredentials({ username: null, accessToken: null, loading: false });
+        setCredentials({ user: null, accessToken: null, loading: false });
         console.error(err);
         return { success: false };
       }
@@ -70,15 +71,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     removeCookie(TOKEN_COOKIE_NAME);
-    setCredentials({ username: null, accessToken: null, loading: false });
+    setCredentials({ user: null, accessToken: null, loading: false });
   }, [removeCookie]);
 
   const value = useMemo(
     () => ({
-      username: credentials.username,
+      user: credentials.user,
       accessToken: credentials.accessToken,
       loading: credentials.loading,
-      isAuthenticated: Boolean(credentials.username && credentials.accessToken),
+      isAuthenticated: Boolean(credentials.accessToken),
       login,
       logout,
     }),

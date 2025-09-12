@@ -1,10 +1,8 @@
 import { createContext, useContext } from 'react';
+import type { AuthState } from '../components/auth/AuthProviders';
 
 /* Type Definitions */
-type AuthContextType = {
-  username: string | null;
-  accessToken: string | null;
-  loading: boolean;
+type AuthContextType = AuthState & {
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<{ success: boolean }>;
   logout: () => void;
