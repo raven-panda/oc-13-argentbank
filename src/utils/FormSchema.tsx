@@ -1,37 +1,23 @@
 import type { HTMLInputTypeAttribute } from 'react';
 
-export interface InputFormSchema {
-  [key: string]: {
-    defaultValue: any;
-    label: string;
-    type?: HTMLInputTypeAttribute;
-    validators?: any[];
-  };
-}
 export interface FormSchema {
-  defaultValues: {
-    [key: string]: any;
-  };
-  labels: {
-    [key: string]: string;
-  };
-  types: {
-    [key: string]: HTMLInputTypeAttribute;
-  };
+  [key: string]: FormSchemaField;
+}
+interface FormSchemaField {
+  defaultValue: any;
+  label: string;
+  type?: HTMLInputTypeAttribute;
+  validators?: any[];
 }
 
-export function createFormSchema(schema: InputFormSchema): FormSchema {
-  const finalSchema: FormSchema = {
-    defaultValues: {},
-    labels: {},
-    types: {},
-  };
+export function extractFormSchemaValues(
+  schema: FormSchema,
+): Record<string, any> {
+  const defaultValues: Record<string, any> = {};
 
   for (const fieldName in schema) {
-    finalSchema.defaultValues[fieldName] = schema[fieldName].defaultValue;
-    finalSchema.labels[fieldName] = schema[fieldName].label;
-    finalSchema.types[fieldName] = schema[fieldName].type ?? 'text';
+    defaultValues[fieldName] = schema[fieldName].defaultValue;
   }
 
-  return finalSchema;
+  return defaultValues;
 }

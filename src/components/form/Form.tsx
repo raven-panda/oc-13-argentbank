@@ -1,20 +1,21 @@
 import { useForm } from '@tanstack/react-form';
-import { createFormSchema, type InputFormSchema } from '../../utils/FormSchema';
+import {
+  extractFormSchemaValues,
+  type FormSchema,
+} from '../../utils/FormSchema';
 import styles from '../../assets/css/components/form.module.css';
 
 export default function Form({
-  definitionSchema,
+  schema,
   onSubmit,
   submitButtonLabel = 'Submit',
 }: {
-  definitionSchema: InputFormSchema;
+  schema: FormSchema;
   onSubmit: (value: any) => void;
   submitButtonLabel?: string;
 }) {
-  const schema = createFormSchema(definitionSchema);
-
   const form = useForm({
-    defaultValues: schema.defaultValues,
+    defaultValues: extractFormSchemaValues(schema),
     onSubmit,
   });
 
@@ -26,11 +27,11 @@ export default function Form({
         form.handleSubmit();
       }}
     >
-      {Object.keys(schema.defaultValues).map((fieldName) => (
+      {Object.keys(schema).map((fieldName) => (
         <div
           key={fieldName}
           className={
-            schema.types[fieldName] !== 'checkbox'
+            schema[fieldName].type !== 'checkbox'
               ? styles.inputTextWrapper
               : styles.inputCheckboxWrapper
           }
@@ -39,34 +40,34 @@ export default function Form({
             name={fieldName}
             children={(field) => (
               <>
-                {schema.types[fieldName] !== 'checkbox' && (
-                  <label htmlFor={field.name}>{schema.labels[fieldName]}</label>
+                {schema[fieldName].type !== 'checkbox' && (
+                  <label htmlFor={field.name}>{schema[fieldName].label}</label>
                 )}
                 <input
                   id={field.name}
-                  type={schema.types[fieldName]}
+                  type={schema[fieldName].type}
                   name={field.name}
                   onBlur={field.handleBlur}
                   onChange={(e) => {
-                    if (schema.types[fieldName] === 'checkbox') {
+                    if (schema[fieldName].type === 'checkbox') {
                       field.handleChange(e.target.checked);
                     } else {
                       field.handleChange(e.target.value);
                     }
                   }}
                   value={
-                    schema.types[fieldName] !== 'checkbox'
+                    schema[fieldName].type !== 'checkbox'
                       ? field.state.value
                       : undefined
                   }
                   checked={
-                    schema.types[fieldName] === 'checkbox'
+                    schema[fieldName].type === 'checkbox'
                       ? String(field.state.value) === 'true'
                       : undefined
                   }
                 />
-                {schema.types[fieldName] === 'checkbox' && (
-                  <label htmlFor={field.name}>{schema.labels[fieldName]}</label>
+                {schema[fieldName].type === 'checkbox' && (
+                  <label htmlFor={field.name}>{schema[fieldName].label}</label>
                 )}
                 {field.state.meta.isTouched && !field.state.meta.isValid ? (
                   <em>{field.state.meta.errors.join(', ')}</em>

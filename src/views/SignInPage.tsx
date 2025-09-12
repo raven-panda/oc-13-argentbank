@@ -10,7 +10,7 @@ export default function SignInPage() {
         <FontAwesomeIcon icon={faUserCircle} />
         <h1>Sign In</h1>
         <Form
-          definitionSchema={{
+          schema={{
             username: {
               defaultValue: '',
               label: 'Username',
