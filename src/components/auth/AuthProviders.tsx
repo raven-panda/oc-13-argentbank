@@ -1,10 +1,14 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { AuthContext, useAuth } from '../../hook/AuthHooks';
-import type { User } from '../../services/UserService';
-
-const TOKEN_COOKIE_NAME = 'accessToken';
-const isFixtureEnabled = import.meta.env.VITE_ENABLE_FIXTURE === 'true';
+import type { User } from '../../definitions/api/user';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { api } from '../../queryClient';
+import {
+  TOKEN_COOKIE_NAME,
+  TOKEN_EXPIRATION_MS,
+} from '../../definitions/constants';
+import { GET_PROFILE_URI, LOGIN_URI } from '../../definitions/api/api-uri';
 
 /* Type Definitions */
 export type AuthState = {
@@ -24,66 +28,61 @@ export function RequireAuthentication({ children }: { children: ReactNode }) {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [credentials, setCredentials] = useState<AuthState>({
-    user: null,
-    accessToken: null,
-    loading: false,
-  });
-  const [, setCookie, removeCookie] = useCookies([TOKEN_COOKIE_NAME], {
+  const queryClient = useQueryClient();
+  const [cookies, setCookies, removeCookies] = useCookies([TOKEN_COOKIE_NAME], {
     doNotParse: true,
   });
 
-  const login = useCallback(
-    async (username: string, password: string) => {
-      setCredentials((s) => ({ ...s, loading: true }));
-      try {
-        if (!isFixtureEnabled) throw new Error('Not implemented');
-
-        const res = {
-          user: {
-            email: username,
-            firstName: 'a',
-            lastName: 'aa',
-          },
-          accessToken: btoa(password),
-        };
-
-        const { user, accessToken } = res;
-        setCookie(
-          TOKEN_COOKIE_NAME,
-          { accessToken },
-          {
-            expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-            path: '/',
-            sameSite: 'strict',
-          },
-        );
-        setCredentials({ user, accessToken, loading: false });
-        return { success: true };
-      } catch (err) {
-        setCredentials({ user: null, accessToken: null, loading: false });
-        console.error(err);
-        return { success: false };
-      }
+  // Récupération du user actuel
+  const { data: user, isLoading } = useQuery({
+    queryKey: ['getProfile'],
+    queryFn: async () => {
+      const res = await api.post(GET_PROFILE_URI);
+      return res.data.body;
     },
-    [setCookie],
-  );
+    retry: false,
+    enabled: Boolean(cookies[TOKEN_COOKIE_NAME]),
+  });
 
-  const logout = useCallback(() => {
-    removeCookie(TOKEN_COOKIE_NAME);
-    setCredentials({ user: null, accessToken: null, loading: false });
-  }, [removeCookie]);
+  const loginMutation = useMutation({
+    mutationFn: async ({
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    }) => {
+      const res = await api.post(LOGIN_URI, { email, password });
+      return res.data;
+    },
+    onSuccess: ({ status, body }) => {
+      if (status !== 200) throw new Error('Invalid request', status);
+      setCookies(TOKEN_COOKIE_NAME, body.token, {
+        path: '/',
+        expires: new Date(Date.now() + TOKEN_EXPIRATION_MS),
+        sameSite: 'strict',
+      });
+      queryClient.invalidateQueries({ queryKey: ['getProfile'] });
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      removeCookies(TOKEN_COOKIE_NAME);
+      queryClient.clear();
+    },
+  });
 
   const value = useMemo(
     () => ({
-      user: credentials.user,
-      accessToken: credentials.accessToken,
-      loading: credentials.loading,
-      isAuthenticated: Boolean(credentials.accessToken),
-      login,
-      logout,
+      user: user ?? null,
+      accessToken: cookies.accessToken,
+      loading: isLoading || loginMutation.isPending || logoutMutation.isPending,
+      isAuthenticated: Boolean(user),
+      login: loginMutation.mutateAsync,
+      logout: logoutMutation.mutateAsync,
     }),
-    [credentials, login, logout],
+    [cookies.accessToken, user, isLoading, loginMutation, logoutMutation],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

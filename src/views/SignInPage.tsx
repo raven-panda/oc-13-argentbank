@@ -16,9 +16,9 @@ export default function SignInPage() {
         <h1>Sign In</h1>
         <Form
           schema={{
-            username: {
+            email: {
               defaultValue: '',
-              label: 'Username',
+              label: 'Email address',
             },
             password: {
               defaultValue: '',
@@ -33,12 +33,16 @@ export default function SignInPage() {
           onSubmit={async ({
             value,
           }: {
-            value: { username: string; password: string; rememberMe: boolean };
+            value: { email: string; password: string; rememberMe: boolean };
           }) => {
-            const loginResponse = await login(value.username, value.password);
-            console.log({ value, success: loginResponse.success });
+            const loginResponse = await login({
+              email: value.email,
+              password: value.password,
+            });
+            const success = loginResponse.status === 200;
+            console.log({ value, success });
 
-            if (loginResponse.success) navigate({ to: '/profile' });
+            if (success) navigate({ to: '/profile' });
           }}
           submitButtonLabel="Sign In"
         />

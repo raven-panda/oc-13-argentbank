@@ -8,6 +8,7 @@ interface ViteTypeOptions {
 
 interface ImportMetaEnv {
   readonly VITE_ENABLE_FIXTURE: 'true' | 'false';
+  readonly VITE_API_URL: string;
 }
 
 interface ImportMeta {
