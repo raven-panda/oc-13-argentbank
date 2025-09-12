@@ -7,7 +7,7 @@ interface ViteTypeOptions {
 }
 
 interface ImportMetaEnv {
-  readonly VITE_ENABLE_FIXTURE: boolean;
+  readonly VITE_ENABLE_FIXTURE: 'true' | 'false';
 }
 
 interface ImportMeta {

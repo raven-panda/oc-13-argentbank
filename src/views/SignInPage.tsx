@@ -2,8 +2,13 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../assets/css/sign-in.module.css';
 import Form from '../components/form/Form';
+import { useNavigate } from '@tanstack/react-router';
+import { useAuth } from '../hook/AuthHooks';
 
 export default function SignInPage() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   return (
     <main className="main bg-dark">
       <section className={styles.signInContent}>
@@ -25,8 +30,15 @@ export default function SignInPage() {
               label: 'Remember Me',
             },
           }}
-          onSubmit={({ value }) => {
-            console.log(value);
+          onSubmit={async ({
+            value,
+          }: {
+            value: { username: string; password: string; rememberMe: boolean };
+          }) => {
+            const loginResponse = await login(value.username, value.password);
+            console.log({ value, success: loginResponse.success });
+
+            if (loginResponse.success) navigate({ to: '/profile' });
           }}
           submitButtonLabel="Sign In"
         />
