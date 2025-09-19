@@ -4,6 +4,7 @@ import styles from '../assets/css/sign-in.module.css';
 import Form from '../components/form/Form';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '../hook/AuthHooks';
+import { getUserAuthForm } from '../components/form/schema/auth-form/AuthFormSchema';
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -15,21 +16,7 @@ export default function SignInPage() {
         <FontAwesomeIcon icon={faUserCircle} />
         <h1>Sign In</h1>
         <Form
-          schema={{
-            email: {
-              defaultValue: '',
-              label: 'Email address',
-            },
-            password: {
-              defaultValue: '',
-              label: 'Password',
-            },
-            rememberMe: {
-              type: 'checkbox',
-              defaultValue: true,
-              label: 'Remember Me',
-            },
-          }}
+          schema={getUserAuthForm()}
           onSubmit={async ({
             value,
           }: {

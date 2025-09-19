@@ -4,6 +4,7 @@ import {
   type FormSchema,
 } from '../../utils/FormSchema';
 import styles from '../../assets/css/components/form.module.css';
+import z from 'zod';
 
 export default function Form({
   schema,
@@ -16,8 +17,24 @@ export default function Form({
 }) {
   const form = useForm({
     defaultValues: extractFormSchemaValues(schema),
+    validators: {
+      onSubmit: z.object(formatFieldValidators(schema)),
+    },
     onSubmit,
   });
+
+  function formatFieldValidators(
+    schema: FormSchema,
+  ): Record<string, string | undefined> {
+    const validators: Record<string, string | undefined> = {};
+
+    for (const fieldName in schema) {
+      if (schema[fieldName].validator)
+        validators[fieldName] = schema[fieldName].validator;
+    }
+
+    return validators;
+  }
 
   return (
     <form
@@ -26,6 +43,7 @@ export default function Form({
         e.stopPropagation();
         form.handleSubmit();
       }}
+      noValidate
     >
       {Object.keys(schema).map((fieldName) => (
         <div
@@ -46,6 +64,7 @@ export default function Form({
                 <input
                   id={field.name}
                   type={schema[fieldName].type}
+                  autoComplete={schema[fieldName].autocomplete}
                   name={field.name}
                   onBlur={field.handleBlur}
                   onChange={(e) => {
@@ -70,7 +89,12 @@ export default function Form({
                   <label htmlFor={field.name}>{schema[fieldName].label}</label>
                 )}
                 {field.state.meta.isTouched && !field.state.meta.isValid ? (
-                  <em>{field.state.meta.errors.join(', ')}</em>
+                  <em>
+                    {field.state.meta.errors
+                      .map((e) => e?.message)
+                      .filter((e) => e)
+                      .join(', ')}
+                  </em>
                 ) : null}
                 {field.state.meta.isValidating ? 'Validating...' : null}
               </>

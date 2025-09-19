@@ -1,5 +1,9 @@
-import type { HTMLInputTypeAttribute } from 'react';
+import type {
+  HTMLInputAutoCompleteAttribute,
+  HTMLInputTypeAttribute,
+} from 'react';
 
+export type FieldValidator = (value: any) => string | undefined;
 export interface FormSchema {
   [key: string]: FormSchemaField;
 }
@@ -7,7 +11,8 @@ interface FormSchemaField {
   defaultValue: any;
   label: string;
   type?: HTMLInputTypeAttribute;
-  validators?: any[];
+  autocomplete?: HTMLInputAutoCompleteAttribute;
+  validator?: any;
 }
 
 export function extractFormSchemaValues(
