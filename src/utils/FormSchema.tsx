@@ -2,6 +2,7 @@ import type {
   HTMLInputAutoCompleteAttribute,
   HTMLInputTypeAttribute,
 } from 'react';
+import type { ZodType } from 'zod';
 
 export type FieldValidator = (value: any) => string | undefined;
 export interface FormSchema {
@@ -12,7 +13,7 @@ interface FormSchemaField {
   label: string;
   type?: HTMLInputTypeAttribute;
   autocomplete?: HTMLInputAutoCompleteAttribute;
-  validator?: any;
+  validator?: ZodType;
 }
 
 export function extractFormSchemaValues(

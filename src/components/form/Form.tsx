@@ -25,8 +25,8 @@ export default function Form({
 
   function formatFieldValidators(
     schema: FormSchema,
-  ): Record<string, string | undefined> {
-    const validators: Record<string, string | undefined> = {};
+  ): Record<string, z.ZodType> {
+    const validators: Record<string, z.ZodType> = {};
 
     for (const fieldName in schema) {
       if (schema[fieldName].validator)
