@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: user ?? null,
       accessToken: cookies.accessToken,
       loading: isLoading || loginMutation.isPending || logoutMutation.isPending,
-      isAuthenticated: Boolean(user),
+      isAuthenticated: Boolean(user && cookies.accessToken),
       login: loginMutation.mutateAsync,
       logout: logoutMutation.mutateAsync,
     }),
