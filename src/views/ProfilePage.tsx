@@ -1,3 +1,5 @@
+import styles from '../assets/css/profile-page.module.css';
+
 export default function ProfilePage() {
-  return <></>;
+  return <main className={styles.bodyContainer}></main>;
 }

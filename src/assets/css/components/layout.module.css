@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  background-color: var(--color-main-1);
 }
 
 .mainNavHeader > *,
@@ -37,6 +38,7 @@
   display: flex;
   justify-content: center;
   border-top: 2px solid #ccc;
+  margin-top: auto;
   padding: 2rem 0 1.5rem;
 }
 
