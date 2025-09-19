@@ -14,20 +14,20 @@ export default function LayoutHeader() {
       </Link>
       {isAuthenticated ? (
         <div className={styles.authenticatedUserInfos}>
-          <p>
+          <Link to="/profile" className={styles.headerButton}>
             <FontAwesomeIcon icon={faUserCircle} /> {user?.firstName}{' '}
             {user?.lastName}
-          </p>
+          </Link>
           <Link
             onClick={() => logout()}
             to="/sign-in"
-            className={styles.signInButton}
+            className={styles.headerButton}
           >
             <FontAwesomeIcon icon={faSignOut} /> Sign Out
           </Link>
         </div>
       ) : (
-        <Link to="/sign-in" className={styles.signInButton}>
+        <Link to="/sign-in" className={styles.headerButton}>
           <FontAwesomeIcon icon={faUserCircle} /> Sign In
         </Link>
       )}

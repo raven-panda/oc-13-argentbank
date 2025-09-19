@@ -9,6 +9,7 @@ import {
   TOKEN_EXPIRATION_MS,
 } from '../../definitions/constants';
 import { GET_PROFILE_URI, LOGIN_URI } from '../../definitions/api/api-uri';
+import { Navigate } from '@tanstack/react-router';
 
 /* Type Definitions */
 export type AuthState = {
@@ -18,10 +19,13 @@ export type AuthState = {
 };
 
 export function RequireAuthentication({ children }: { children: ReactNode }) {
-  const { loading } = useAuth();
+  const { loading, isAuthenticated, logout } = useAuth();
 
   if (loading) {
     return <div>Chargement...</div>;
+  } else if (!isAuthenticated) {
+    logout();
+    return <Navigate to="/sign-in" />;
   }
 
   return children;
