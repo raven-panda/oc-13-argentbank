@@ -1,5 +1,10 @@
-.mainNavHeader {
-  position: fixed;
+.layoutCtr {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainHeader {
   display: flex;
   width: 100%;
   box-sizing: border-box;
@@ -9,13 +14,13 @@
   background-color: var(--color-main-1);
 }
 
-.mainNavHeader > *,
+.mainHeader > *,
 .authenticatedUserInfos > a {
   text-decoration: none;
   margin-right: 0.5rem;
 }
 
-.mainNavHeader img {
+.mainHeader img {
   display: block;
 }
 
@@ -34,11 +39,14 @@
   font-weight: 600;
 }
 
+.layoutCtr > main {
+  flex: 1;
+}
+
 .mainFooter {
   display: flex;
   justify-content: center;
   border-top: 2px solid #ccc;
-  margin-top: auto;
   padding: 2rem 0 1.5rem;
 }
 

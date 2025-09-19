@@ -1,6 +1,6 @@
 import { createRootRoute, createRoute, Outlet } from '@tanstack/react-router';
 import HomePage from '../views/HomePage';
-import MainLayout from '../components/MainLayout';
+import MainLayout from '../components/layout/MainLayout';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import SignInPage from '../views/SignInPage';
 import ProfilePage from '../views/ProfilePage';
@@ -32,7 +32,7 @@ const protectedRoute = createRoute({
   component: () => (
     <>
       <RequireAuthentication>
-        <MainLayout isProtected />
+        <MainLayout />
       </RequireAuthentication>
       <TanStackRouterDevtools />
     </>
