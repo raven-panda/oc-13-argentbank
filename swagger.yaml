@@ -1,0 +1,410 @@
+# TODO : Edit swagger with this tool : https://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login user
+      description: Login the user and return the generated JWT token
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Login Successfully
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /user/signup:
+    post:
+      tags:
+        - User Module
+      summary: Signup user
+      description: Creates an account for the user
+      parameters:
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: '#/definitions/SignupRequest'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Signup Successfully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    $ref: '#/definitions/Profile'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /user/profile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Get User Profile
+      description: Fetches loged in user's profile informations
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    $ref: '#/definitions/Profile'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Edit User Profile
+      description: Updates loged in user's profile informations
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserProfileUpdateRequest'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    $ref: '#/definitions/Profile'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /bank-accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Bank Accounts Module
+      summary: Get User bank accounts summaries
+      description: Fetches logged in user's bank accounts summaries
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User bank accounts summaries retrieved successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    type: array
+                    items:
+                      $ref: '#/definitions/BankAccountSummary'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /bank-accounts/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Bank Accounts Module
+      summary: Get User bank account by ID
+      description: Fetches logged in user's bank account data with transactions by given ID
+      parameters:
+        - in: path
+          name: id
+          description: Bank Account ID
+          type: integer
+          required: true
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User bank account data retrieved successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    $ref: '#/definitions/BankAccount'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /bank-accounts/{bankAccountId}/transaction/{transactionId}:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Bank Accounts Module
+      summary: Update transaction
+      description: Updates transaction data defined with given ID
+      parameters:
+        - in: path
+          name: bankAccountId
+          description: Bank Account ID
+          type: integer
+          required: true
+        - in: path
+          name: transactionId
+          description: Transaction ID
+          type: integer
+          required: true
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionUpdateRequest'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction data updated successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  #
+  # Requests bodies objects schema
+  #
+  SignupRequest:
+    description: Request body for user signup endpoint
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+      firstName:
+        type: string
+        description: user first name
+      lastName:
+        type: string
+        description: user last name
+  LoginRequest:
+    description: Request body for user login endpoint
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+  UserProfileUpdateRequest:
+    description: Request body for user profile PUT endpoint
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  TransactionUpdateRequest:
+    type: object
+    description: Transaction data to update for transaction update PUT endpoint
+    properties:
+      category:
+        type: string
+      userNotes:
+        type: string
+  
+  #
+  # Specific response objects schema
+  #
+  ApiResponse:
+    description: Generic response for API endpoints
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+  LoginResponse:
+    description: Response body for user login endpoint
+    type: object
+    properties:
+      token:
+        type: string
+
+  #
+  # Data objects schema
+  #
+  Profile:
+    description: Object representing profile data
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+  BankAccountSummary:
+    description: Object representing bank account summarized data
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      balanceAmount:
+        type: integer
+      balanceType:
+        $ref: "#/definitions/AccountBalanceTypeEnum"
+  BankAccount:
+    description: Object representing bank account full data with transactions
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      balanceAmount:
+        type: integer
+      balanceType:
+        $ref: "#/definitions/AccountBalanceTypeEnum"
+      transactions:
+        type: array
+        items:
+          $ref: '#/definitions/Transaction'      
+  Transaction:
+    type: object
+    description: Transaction data for bank account requests endpoints
+    properties:
+      id:
+        type: string
+      description:
+        type: string
+      type:
+        type: string
+      category:
+        type: string
+      userNotes:
+        type: string
+      date:
+        type: string
+      costAmount:
+        type: integer
+      balanceAmount:
+        type: integer
+
+  #
+  # Other types definitions
+  #
+  AccountBalanceTypeEnum:
+    description: String enum definition for bank account type
+    type: string
+    enum:
+      - AVAILABLE
+      - CURRENT
+    
