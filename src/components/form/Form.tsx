@@ -1,8 +1,10 @@
 import { useForm, type StandardSchemaV1Issue } from '@tanstack/react-form';
 import {
   extractFormSchemaValues,
+  formatFieldValidators,
+  isFieldRequired,
   type FormSchema,
-} from '../../utils/FormSchema';
+} from '../../utils/FormUtils';
 import styles from '../../assets/css/components/form.module.css';
 import z from 'zod';
 
@@ -37,21 +39,6 @@ export default function Form({
       onChange: z.object(formatFieldValidators(schema)),
     },
   });
-
-  function formatFieldValidators(
-    schema: FormSchema,
-  ): Record<string, z.ZodType> {
-    const validators: Record<string, z.ZodType> = {};
-
-    for (const formGroup of schema) {
-      for (const fieldName in formGroup.fields) {
-        if (formGroup.fields[fieldName].validator)
-          validators[fieldName] = formGroup.fields[fieldName].validator;
-      }
-    }
-
-    return validators;
-  }
 
   return (
     <form
@@ -88,15 +75,21 @@ export default function Form({
                       fieldGroup.fields[fieldName].type !== 'checkbox' && (
                         <label htmlFor={field.name}>
                           {fieldGroup.fields[fieldName].label}
+                          {isFieldRequired(
+                            fieldGroup.fields[fieldName].validator,
+                          ) && <em className={styles.requiredAsterisk}>*</em>}
                         </label>
                       )}
                     <input
                       id={field.name}
-                      className={
+                      className={[
                         fieldGroup.fields[fieldName].type === 'checkbox'
                           ? styles.checkboxField
-                          : styles.inputField
-                      }
+                          : styles.inputField,
+                        field.state.meta.isTouched && !field.state.meta.isValid
+                          ? styles.invalidField
+                          : '',
+                      ].join(' ')}
                       type={fieldGroup.fields[fieldName].type}
                       autoComplete={fieldGroup.fields[fieldName].autocomplete}
                       name={field.name}
@@ -126,7 +119,7 @@ export default function Form({
                         </label>
                       )}
                     {field.state.meta.isTouched && !field.state.meta.isValid ? (
-                      <em>
+                      <em className={styles.errorLabel}>
                         {field.state.meta.errors
                           .map((e) => e?.message)
                           .filter((e) => e)

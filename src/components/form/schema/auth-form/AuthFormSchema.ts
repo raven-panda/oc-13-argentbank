@@ -1,5 +1,5 @@
 import z from 'zod';
-import type { FormSchema } from '../../../../utils/FormSchema';
+import type { FormSchema } from '../../../../utils/FormUtils';
 
 export function getUserAuthForm(): FormSchema {
   return [

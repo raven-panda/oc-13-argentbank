@@ -11,8 +11,24 @@
 }
 
 .inputTextWrapper input {
+  transition: border-color 0.1s ease-in-out;
+  outline: none;
   padding: 5px;
   font-size: 1.2rem;
+  border: solid 1px var(--color-dark-2);
+  border-radius: 2px;
+}
+
+.inputTextWrapper input:focus:not(.invalidField) {
+  border-color: var(--color-blue-1);
+}
+
+.inputTextWrapper .invalidField {
+  border-color: var(--color-red-1);
+}
+
+.requiredAsterisk {
+  color: var(--color-red-2);
 }
 
 .inputCheckboxWrapper {
@@ -26,6 +42,12 @@
 .inputField {
   width: 100%;
   box-sizing: border-box;
+}
+.errorLabel {
+  color: var(--color-red-2);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.8rem;
 }
 
 .submitButton {
