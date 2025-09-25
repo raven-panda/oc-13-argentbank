@@ -1,0 +1,8 @@
+.usernameEditFormWrapper {
+  width: 15%;
+  margin: auto;
+}
+
+.usernameEditFormWrapper input {
+  text-align: center;
+}
