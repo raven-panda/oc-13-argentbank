@@ -1,4 +1,4 @@
-import { useForm } from '@tanstack/react-form';
+import { useForm, type StandardSchemaV1Issue } from '@tanstack/react-form';
 import {
   extractFormSchemaValues,
   type FormSchema,
@@ -8,19 +8,34 @@ import z from 'zod';
 
 export default function Form({
   schema,
-  onSubmit,
   submitButtonLabel = 'Submit',
+  onSubmit,
+  cancelCallback,
 }: {
   schema: FormSchema;
-  onSubmit: (value: any) => void;
   submitButtonLabel?: string;
+  onSubmit: (
+    value: Record<string, any>,
+  ) => Promise<
+    | {
+        success: boolean;
+        errors: Record<string, StandardSchemaV1Issue | undefined>;
+      }
+    | undefined
+  >;
+  cancelCallback?: () => void;
 }) {
   const form = useForm({
     defaultValues: extractFormSchemaValues(schema),
     validators: {
-      onSubmit: z.object(formatFieldValidators(schema)),
+      onSubmitAsync: async ({ value }) => {
+        const response = await onSubmit(value);
+        if (!response) return null;
+
+        return { fields: response.errors };
+      },
+      onChange: z.object(formatFieldValidators(schema)),
     },
-    onSubmit,
   });
 
   function formatFieldValidators(
@@ -28,9 +43,11 @@ export default function Form({
   ): Record<string, z.ZodType> {
     const validators: Record<string, z.ZodType> = {};
 
-    for (const fieldName in schema) {
-      if (schema[fieldName].validator)
-        validators[fieldName] = schema[fieldName].validator;
+    for (const formGroup of schema) {
+      for (const fieldName in formGroup.fields) {
+        if (formGroup.fields[fieldName].validator)
+          validators[fieldName] = formGroup.fields[fieldName].validator;
+      }
     }
 
     return validators;
@@ -45,61 +62,74 @@ export default function Form({
       }}
       noValidate
     >
-      {Object.keys(schema).map((fieldName) => (
+      {schema.map((fieldGroup, key) => (
         <div
-          key={fieldName}
-          className={
-            schema[fieldName].type !== 'checkbox'
-              ? styles.inputTextWrapper
-              : styles.inputCheckboxWrapper
-          }
+          key={fieldGroup.layoutType + key}
+          className={styles[`formGroup_${fieldGroup.layoutType}`]}
         >
-          <form.Field
-            name={fieldName}
-            children={(field) => (
-              <>
-                {schema[fieldName].type !== 'checkbox' && (
-                  <label htmlFor={field.name}>{schema[fieldName].label}</label>
+          {Object.keys(fieldGroup.fields).map((fieldName) => (
+            <div
+              key={fieldName}
+              className={
+                fieldGroup.fields[fieldName].type !== 'checkbox'
+                  ? styles.inputTextWrapper
+                  : styles.inputCheckboxWrapper
+              }
+            >
+              <form.Field
+                name={fieldName}
+                children={(field) => (
+                  <>
+                    {fieldGroup.fields[fieldName].label &&
+                      fieldGroup.fields[fieldName].type !== 'checkbox' && (
+                        <label htmlFor={field.name}>
+                          {fieldGroup.fields[fieldName].label}
+                        </label>
+                      )}
+                    <input
+                      id={field.name}
+                      type={fieldGroup.fields[fieldName].type}
+                      autoComplete={fieldGroup.fields[fieldName].autocomplete}
+                      name={field.name}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => {
+                        if (fieldGroup.fields[fieldName].type === 'checkbox') {
+                          field.handleChange(e.target.checked);
+                        } else {
+                          field.handleChange(e.target.value);
+                        }
+                      }}
+                      value={
+                        fieldGroup.fields[fieldName].type !== 'checkbox'
+                          ? field.state.value
+                          : undefined
+                      }
+                      checked={
+                        fieldGroup.fields[fieldName].type === 'checkbox'
+                          ? String(field.state.value) === 'true'
+                          : undefined
+                      }
+                    />
+                    {fieldGroup.fields[fieldName].label &&
+                      fieldGroup.fields[fieldName].type === 'checkbox' && (
+                        <label htmlFor={field.name}>
+                          {fieldGroup.fields[fieldName].label}
+                        </label>
+                      )}
+                    {field.state.meta.isTouched && !field.state.meta.isValid ? (
+                      <em>
+                        {field.state.meta.errors
+                          .map((e) => e?.message)
+                          .filter((e) => e)
+                          .join(', ')}
+                      </em>
+                    ) : null}
+                    {field.state.meta.isValidating ? 'Validating...' : null}
+                  </>
                 )}
-                <input
-                  id={field.name}
-                  type={schema[fieldName].type}
-                  autoComplete={schema[fieldName].autocomplete}
-                  name={field.name}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => {
-                    if (schema[fieldName].type === 'checkbox') {
-                      field.handleChange(e.target.checked);
-                    } else {
-                      field.handleChange(e.target.value);
-                    }
-                  }}
-                  value={
-                    schema[fieldName].type !== 'checkbox'
-                      ? field.state.value
-                      : undefined
-                  }
-                  checked={
-                    schema[fieldName].type === 'checkbox'
-                      ? String(field.state.value) === 'true'
-                      : undefined
-                  }
-                />
-                {schema[fieldName].type === 'checkbox' && (
-                  <label htmlFor={field.name}>{schema[fieldName].label}</label>
-                )}
-                {field.state.meta.isTouched && !field.state.meta.isValid ? (
-                  <em>
-                    {field.state.meta.errors
-                      .map((e) => e?.message)
-                      .filter((e) => e)
-                      .join(', ')}
-                  </em>
-                ) : null}
-                {field.state.meta.isValidating ? 'Validating...' : null}
-              </>
-            )}
-          />
+              />
+            </div>
+          ))}
         </div>
       ))}
       <form.Subscribe
@@ -114,6 +144,7 @@ export default function Form({
           </button>
         )}
       />
+      {cancelCallback && <button onClick={cancelCallback}>Cancel</button>}
     </form>
   );
 }

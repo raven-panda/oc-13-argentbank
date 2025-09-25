@@ -5,12 +5,16 @@ import type {
 import type { ZodType } from 'zod';
 
 export type FieldValidator = (value: any) => string | undefined;
-export interface FormSchema {
-  [key: string]: FormSchemaField;
+export type FormSchema = FormSchemaGroup[];
+interface FormSchemaGroup {
+  layoutType: 'row' | 'column';
+  fields: {
+    [key: string]: FormSchemaField;
+  };
 }
 interface FormSchemaField {
   defaultValue: any;
-  label: string;
+  label?: string;
   type?: HTMLInputTypeAttribute;
   autocomplete?: HTMLInputAutoCompleteAttribute;
   validator?: ZodType;
@@ -21,8 +25,10 @@ export function extractFormSchemaValues(
 ): Record<string, any> {
   const defaultValues: Record<string, any> = {};
 
-  for (const fieldName in schema) {
-    defaultValues[fieldName] = schema[fieldName].defaultValue;
+  for (const formGroup of schema) {
+    for (const fieldName in formGroup.fields) {
+      defaultValues[fieldName] = formGroup.fields[fieldName].defaultValue;
+    }
   }
 
   return defaultValues;

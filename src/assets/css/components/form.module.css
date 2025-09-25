@@ -35,3 +35,13 @@
   background-color: #00bc77;
   color: #fff;
 }
+
+.formGroup_row {
+  display: flex;
+  flex-direction: row;
+}
+
+.formGroup_column {
+  display: flex;
+  flex-direction: column;
+}

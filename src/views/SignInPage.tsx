@@ -5,6 +5,7 @@ import Form from '../components/form/Form';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '../hook/AuthHooks';
 import { getUserAuthForm } from '../components/form/schema/auth-form/AuthFormSchema';
+import { AxiosError } from 'axios';
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -17,19 +18,34 @@ export default function SignInPage() {
         <h1>Sign In</h1>
         <Form
           schema={getUserAuthForm()}
-          onSubmit={async ({
-            value,
-          }: {
-            value: { email: string; password: string; rememberMe: boolean };
-          }) => {
-            const loginResponse = await login({
-              email: value.email,
-              password: value.password,
-            });
-            const success = loginResponse.status === 200;
-            console.log({ value, success });
+          onSubmit={async (value) => {
+            let success = false;
+            let error: string | undefined;
+            try {
+              const loginResponse = await login({
+                email: value.email,
+                password: value.password,
+              });
 
-            if (success) navigate({ to: '/profile' });
+              success = loginResponse.status === 200;
+              console.log(loginResponse);
+
+              if (success) navigate({ to: '/profile' });
+            } catch (e) {
+              if (e instanceof AxiosError && e.status === 400)
+                error = 'Invalid crendentials';
+            }
+
+            return {
+              success,
+              errors: {
+                email: error
+                  ? {
+                      message: error,
+                    }
+                  : undefined,
+              },
+            };
           }}
           submitButtonLabel="Sign In"
         />
