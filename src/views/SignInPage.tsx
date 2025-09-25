@@ -33,7 +33,8 @@ export default function SignInPage() {
               if (success) navigate({ to: '/bank-account' });
             } catch (e) {
               if (e instanceof AxiosError && e.status === 400)
-                error = 'Invalid crendentials';
+                error =
+                  'No account found for given email and password. Try again.';
             }
 
             return {
