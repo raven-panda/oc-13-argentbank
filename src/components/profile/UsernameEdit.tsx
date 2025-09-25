@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import getUsernameEditForm from '../form/schema/username-edit-form/UsernameEditFormSchema';
-import Form from '../form/Form';
-import styles from '../../assets/css/components/username-edit.module.css';
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
-import { api } from '../../queryClient';
+import { useState } from 'react';
+import styles from '../../assets/css/components/username-edit.module.css';
 import { PROFILE_URI } from '../../definitions/api/api-uri';
+import { api } from '../../queryClient';
+import Form from '../form/Form';
+import getUsernameEditForm from '../form/schema/username-edit-form/UsernameEditFormSchema';
 
 export default function UsernameEdit({
   userFirstName,
@@ -42,11 +44,13 @@ export default function UsernameEdit({
       submitButtonLabel="Save"
     />
   ) : (
-    <>
+    <div className={styles.usernameParagraph}>
       <p>
         {userFirstName} {userLastName}
       </p>
-      <button onClick={() => setEditing(true)}>Edit</button>
-    </>
+      <button onClick={() => setEditing(true)} className={styles.editButton}>
+        <FontAwesomeIcon icon={faUserEdit} size="sm" /> Edit your name
+      </button>
+    </div>
   );
 }

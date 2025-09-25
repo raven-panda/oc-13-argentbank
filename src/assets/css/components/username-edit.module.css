@@ -1,8 +1,25 @@
 .usernameEditFormWrapper {
   width: 15%;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .usernameEditFormWrapper input {
   text-align: center;
+}
+
+.usernameParagraph p {
+  margin: 0;
+  font-size: 2.3rem;
+}
+
+.editButton {
+  border: none;
+  background-color: transparent;
+  padding: 4px;
+  width: auto;
+  border-radius: 18rem;
+}
+
+.editButton:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
