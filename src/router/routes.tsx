@@ -3,7 +3,7 @@ import HomePage from '../views/HomePage';
 import MainLayout from '../components/layout/MainLayout';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import SignInPage from '../views/SignInPage';
-import ProfilePage from '../views/ProfilePage';
+import BankAccountsPage from '../views/BankAccountsPage';
 import { RequireAuthentication } from '../components/auth/AuthProviders';
 
 export const rootRoute = createRootRoute({
@@ -51,13 +51,13 @@ const signInRoute = createRoute({
   component: SignInPage,
 });
 
-const profileRoute = createRoute({
+const bankAccountRoute = createRoute({
   getParentRoute: () => protectedRoute,
-  path: '/profile',
-  component: ProfilePage,
+  path: '/bank-account',
+  component: BankAccountsPage,
 });
 
 export const routeTree = rootRoute.addChildren([
   publicRoute.addChildren([homeRoute, signInRoute]),
-  protectedRoute.addChildren([profileRoute]),
+  protectedRoute.addChildren([bankAccountRoute]),
 ]);

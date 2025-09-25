@@ -30,7 +30,7 @@ export default function SignInPage() {
               success = loginResponse.status === 200;
               console.log(loginResponse);
 
-              if (success) navigate({ to: '/profile' });
+              if (success) navigate({ to: '/bank-account' });
             } catch (e) {
               if (e instanceof AxiosError && e.status === 400)
                 error = 'Invalid crendentials';
