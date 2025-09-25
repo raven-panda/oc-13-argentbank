@@ -1,15 +1,15 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Navigate } from '@tanstack/react-router';
 import { useMemo, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
-import { AuthContext, useAuth } from '../../hook/AuthHooks';
+import { LOGIN_URI, PROFILE_URI } from '../../definitions/api/api-uri';
 import type { User } from '../../definitions/api/user';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from '../../queryClient';
 import {
   TOKEN_COOKIE_NAME,
   TOKEN_EXPIRATION_MS,
 } from '../../definitions/constants';
-import { GET_PROFILE_URI, LOGIN_URI } from '../../definitions/api/api-uri';
-import { Navigate } from '@tanstack/react-router';
+import { AuthContext, useAuth } from '../../hook/AuthHooks';
+import { api } from '../../queryClient';
 
 /* Type Definitions */
 export type AuthState = {
@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: user, isLoading } = useQuery({
     queryKey: ['getProfile'],
     queryFn: async () => {
-      const res = await api.post(GET_PROFILE_URI);
+      const res = await api.post(PROFILE_URI);
       return res.data.body;
     },
     retry: false,

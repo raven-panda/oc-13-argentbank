@@ -14,7 +14,7 @@ export default function LayoutHeader() {
       </Link>
       {isAuthenticated ? (
         <div className={styles.authenticatedUserInfos}>
-          <Link to="/profile" className={styles.headerButton}>
+          <Link to="/bank-account" className={styles.headerButton}>
             <FontAwesomeIcon icon={faUserCircle} /> {user?.firstName}{' '}
             {user?.lastName}
           </Link>
