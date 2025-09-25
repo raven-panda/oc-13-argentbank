@@ -11,12 +11,11 @@ export default function Form({
   submitButtonLabel = 'Submit',
   onSubmit,
   cancelCallback,
+  className,
 }: {
   schema: FormSchema;
   submitButtonLabel?: string;
-  onSubmit: (
-    value: Record<string, any>,
-  ) => Promise<
+  onSubmit: (value: Record<string, any>) => Promise<
     | {
         success: boolean;
         errors: Record<string, StandardSchemaV1Issue | undefined>;
@@ -24,6 +23,7 @@ export default function Form({
     | undefined
   >;
   cancelCallback?: () => void;
+  className?: string;
 }) {
   const form = useForm({
     defaultValues: extractFormSchemaValues(schema),
@@ -61,11 +61,15 @@ export default function Form({
         form.handleSubmit();
       }}
       noValidate
+      className={className}
     >
       {schema.map((fieldGroup, key) => (
         <div
           key={fieldGroup.layoutType + key}
-          className={styles[`formGroup_${fieldGroup.layoutType}`]}
+          className={[
+            styles[`formGroup_${fieldGroup.layoutType}`],
+            styles[`formGroupGap_${fieldGroup.gap}`] ?? '',
+          ].join(' ')}
         >
           {Object.keys(fieldGroup.fields).map((fieldName) => (
             <div
@@ -88,6 +92,11 @@ export default function Form({
                       )}
                     <input
                       id={field.name}
+                      className={
+                        fieldGroup.fields[fieldName].type === 'checkbox'
+                          ? styles.checkboxField
+                          : styles.inputField
+                      }
                       type={fieldGroup.fields[fieldName].type}
                       autoComplete={fieldGroup.fields[fieldName].autocomplete}
                       name={field.name}

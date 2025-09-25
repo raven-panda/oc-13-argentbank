@@ -8,6 +8,7 @@ export type FieldValidator = (value: any) => string | undefined;
 export type FormSchema = FormSchemaGroup[];
 interface FormSchemaGroup {
   layoutType: 'row' | 'column';
+  gap?: 'small' | 'medium' | 'large';
   fields: {
     [key: string]: FormSchemaField;
   };

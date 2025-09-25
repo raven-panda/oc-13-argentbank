@@ -3,6 +3,7 @@
   flex-direction: column;
   text-align: left;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .inputTextWrapper label {
@@ -20,6 +21,11 @@
 
 .inputCheckboxWrapper label {
   margin-left: 0.25rem;
+}
+
+.inputField {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .submitButton {
@@ -44,4 +50,16 @@
 .formGroup_column {
   display: flex;
   flex-direction: column;
+}
+
+.formGroupGap_small {
+  gap: 8px;
+}
+
+.formGroupGap_medium {
+  gap: 16px;
+}
+
+.formGroupGap_large {
+  gap: 32px;
 }
