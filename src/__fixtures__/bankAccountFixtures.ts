@@ -1,0 +1,114 @@
+import type {
+  BankAccount,
+  BankAccountSummary,
+} from '../definitions/api/bank-account';
+
+export const bankAccountFixtures: {
+  accountsSummaries: BankAccountSummary[];
+  accounts: BankAccount[];
+} = {
+  accountsSummaries: [
+    {
+      id: '1234',
+      name: 'Argent Bank Checkings (x8349)',
+      balanceAmount: 2082.79,
+      balanceType: 'AVAILABLE',
+    },
+    {
+      id: '5678',
+      name: 'Argent Bank Savings (x67124)',
+      balanceAmount: 10928.42,
+      balanceType: 'AVAILABLE',
+    },
+    {
+      id: '9012',
+      name: 'Argent Bank Credit Card (x5201)',
+      balanceAmount: 184.3,
+      balanceType: 'CURRENT',
+    },
+  ],
+  accounts: [
+    {
+      id: '1234',
+      name: 'Argent Bank Checkings (x8349)',
+      balanceAmount: 2082.79,
+      balanceType: 'AVAILABLE',
+      transactions: [
+        {
+          id: 'transaction1',
+          costAmount: 50,
+          balanceAmount: 2187.79,
+          description: 'Golden Sun Bakery',
+          date: '2025-07-11T12:09:42.000Z',
+          type: 'Electronic',
+          category: 'Food',
+          userNotes: '',
+        },
+        {
+          id: 'transaction2',
+          costAmount: 40,
+          balanceAmount: 2147.79,
+          description: 'Golden Sun Bakery',
+          date: '2025-07-13T12:03:27.000Z',
+          type: 'Electronic',
+          category: 'Food',
+          userNotes: '',
+        },
+        {
+          id: 'transaction3',
+          costAmount: 30,
+          balanceAmount: 2117.79,
+          description: 'Golden Sun Bakery',
+          date: '2025-07-14T12:12:54.000Z',
+          type: 'Electronic',
+          category: 'Food',
+          userNotes: '',
+        },
+        {
+          id: 'transaction4',
+          costAmount: 20,
+          balanceAmount: 2097.79,
+          description: 'Golden Sun Bakery',
+          date: '2025-07-16T13:27:12.000Z',
+          type: 'Electronic',
+          category: 'Food',
+          userNotes: '',
+        },
+        {
+          id: 'transaction5',
+          costAmount: 10,
+          balanceAmount: 2087.79,
+          description: 'Golden Sun Bakery',
+          date: '2025-07-17T12:13:20.000Z',
+          type: 'Electronic',
+          category: 'Food',
+          userNotes: '',
+        },
+        {
+          id: 'transaction6',
+          costAmount: 5,
+          balanceAmount: 2082.79,
+          description: 'Golden Sun Bakery',
+          date: '2025-07-19T16:23:43.000Z',
+          type: 'Electronic',
+          category: 'Food',
+          userNotes: '',
+        },
+      ],
+    },
+    {
+      id: '5678',
+      name: 'Argent Bank Savings (x67124)',
+      balanceAmount: 10928.42,
+      balanceType: 'AVAILABLE',
+      transactions: [],
+    },
+    {
+      id: '9012',
+      name: 'Argent Bank Credit Card (x5201)',
+      balanceAmount: 184.3,
+      balanceType: 'CURRENT',
+      transactions: [],
+    },
+  ],
+};
