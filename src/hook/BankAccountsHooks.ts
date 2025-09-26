@@ -1,21 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../queryClient';
-import {
-  BANK_ACCOUNT_BY_ID_URI,
-  BANK_ACCOUNTS_URI,
-} from '../definitions/api/api-uri';
 import type {
   BankAccount,
   BankAccountSummary,
 } from '../definitions/api/bank-account';
+import {
+  getBankAccountById,
+  getBankAccounts,
+} from '../api/bank-account-api-queries';
+import type { ApiResponse } from '../definitions/api/api-response';
 
 export function useBankAccountsSummaries() {
-  const { data: bankAccounts, isLoading } = useQuery<BankAccountSummary[]>({
-    queryKey: ['getProfile'],
-    queryFn: async () => {
-      const res = await api.get(BANK_ACCOUNTS_URI);
-      return res.data.body;
-    },
+  const { data: bankAccounts, isLoading } = useQuery<
+    ApiResponse<BankAccountSummary[]>
+  >({
+    queryKey: ['getBankAccounts'],
+    queryFn: getBankAccounts,
     retry: false,
   });
 
@@ -23,12 +22,11 @@ export function useBankAccountsSummaries() {
 }
 
 export function useBankAccount(id: string) {
-  const { data: bankAccount, isLoading } = useQuery<BankAccount>({
-    queryKey: ['getProfile'],
-    queryFn: async () => {
-      const res = await api.get(BANK_ACCOUNT_BY_ID_URI.replace(':id', id));
-      return res.data.body;
-    },
+  const { data: bankAccount, isLoading } = useQuery<
+    ApiResponse<BankAccount | undefined>
+  >({
+    queryKey: ['getBankAccountById'],
+    queryFn: async () => await getBankAccountById(id),
     retry: false,
   });
 

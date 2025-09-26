@@ -21,3 +21,8 @@ export interface Transaction {
   costAmount: number;
   balanceAmount: number;
 }
+
+export type TransactionUpdateRequest = Pick<
+  Transaction,
+  'category' | 'userNotes'
+>;

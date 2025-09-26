@@ -1,8 +1,12 @@
 import type { User } from '../definitions/api/user';
 
 export const userFixtures: {
+  login: { token: string };
   profile: User;
 } = {
+  login: {
+    token: 'mockedToken1234',
+  },
   profile: {
     id: '1234',
     email: 'test@gmail.com',
