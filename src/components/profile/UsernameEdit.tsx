@@ -43,7 +43,27 @@ export default function UsernameEdit({
         setEditing(false);
         return undefined;
       }}
-      submitButtonLabel="Save"
+      submitButton={({ canSubmit }) => (
+        <button
+          className={styles.editUsernameFormCta}
+          type="submit"
+          disabled={!canSubmit}
+        >
+          Save
+        </button>
+      )}
+      cancelButton={({ reset }) => (
+        <button
+          className={styles.editUsernameFormCta}
+          type="button"
+          onClick={() => {
+            setEditing(false);
+            reset();
+          }}
+        >
+          Cancel
+        </button>
+      )}
     />
   ) : (
     <div className={styles.usernameParagraph}>

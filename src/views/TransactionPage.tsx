@@ -31,6 +31,7 @@ export default function TransactionPage() {
           </>
         )}
       </header>
+      <main className={styles.bodyContainer}></main>
     </>
   );
 }

@@ -1,5 +1,5 @@
 .usernameEditFormWrapper {
-  width: 15%;
+  width: 20%;
   margin: 0 auto;
 }
 
@@ -22,4 +22,13 @@
 
 .editButton:hover {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.editUsernameFormCta {
+  flex: 0 1 100px;
+  background-color: var(--color-main-1);
+  color: var(--color-blue-1);
+  padding: 6px;
+  border-radius: 2px;
+  border: solid 1px currentColor;
 }

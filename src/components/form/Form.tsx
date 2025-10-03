@@ -7,16 +7,29 @@ import {
 } from '../../utils/FormUtils';
 import styles from '../../assets/css/components/form.module.css';
 import z from 'zod';
+import type { ReactNode } from 'react';
+
+interface SubmitButtonProps {
+  canSubmit: boolean;
+}
+interface CancelButtonProps {
+  reset: () => void;
+}
 
 export default function Form({
   schema,
-  submitButtonLabel = 'Submit',
+  submitButton = ({ canSubmit }) => (
+    <button type="submit" disabled={!canSubmit} className={styles.submitButton}>
+      Submit
+    </button>
+  ),
+  cancelButton,
   onSubmit,
-  cancelCallback,
   className,
 }: {
   schema: FormSchema;
-  submitButtonLabel?: string;
+  submitButton?: (props: SubmitButtonProps) => ReactNode;
+  cancelButton?: (props: CancelButtonProps) => ReactNode;
   onSubmit: (value: Record<string, any>) => Promise<
     | {
         success: boolean;
@@ -24,7 +37,6 @@ export default function Form({
       }
     | undefined
   >;
-  cancelCallback?: () => void;
   className?: string;
 }) {
   const form = useForm({
@@ -134,19 +146,13 @@ export default function Form({
           ))}
         </div>
       ))}
-      <form.Subscribe
-        selector={(state) => [state.canSubmit, state.isSubmitting]}
-        children={([canSubmit, isSubmitting]) => (
-          <button
-            type="submit"
-            disabled={!canSubmit}
-            className={styles.submitButton}
-          >
-            {isSubmitting ? '...' : submitButtonLabel}
-          </button>
-        )}
-      />
-      {cancelCallback && <button onClick={cancelCallback}>Cancel</button>}
+      <div className={styles.formFooter}>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit]}
+          children={([canSubmit]) => submitButton({ canSubmit })}
+        />
+        {cancelButton?.({ reset: form.reset })}
+      </div>
     </form>
   );
 }

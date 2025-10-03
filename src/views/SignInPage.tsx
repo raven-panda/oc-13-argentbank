@@ -48,7 +48,6 @@ export default function SignInPage() {
               },
             };
           }}
-          submitButtonLabel="Sign In"
         />
       </section>
     </main>

@@ -85,3 +85,13 @@
 .formGroupGap_large {
   gap: 32px;
 }
+
+.formFooter {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.formFooter > * {
+  flex: 1;
+}
