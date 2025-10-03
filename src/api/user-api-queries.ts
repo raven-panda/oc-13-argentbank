@@ -39,3 +39,23 @@ export async function postUserProfile() {
   const res = await api.post<ApiResponse<User>>(PROFILE_URI);
   return res.data;
 }
+
+export async function putUserProfile({
+  firstName,
+  lastName,
+}: {
+  firstName: string;
+  lastName: string;
+}) {
+  if (isFixtureEnabled) {
+    userFixtures.profile = {
+      ...userFixtures.profile,
+      firstName,
+      lastName,
+    };
+    return buildApiResponseFixture(userFixtures.profile);
+  }
+
+  const res = await api.put(PROFILE_URI, { firstName, lastName });
+  return res.data;
+}

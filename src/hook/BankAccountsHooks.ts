@@ -18,7 +18,7 @@ export function useBankAccountsSummaries() {
     retry: false,
   });
 
-  return { bankAccounts, isLoading };
+  return { bankAccounts: bankAccounts?.body, isLoading };
 }
 
 export function useBankAccount(id: string) {
