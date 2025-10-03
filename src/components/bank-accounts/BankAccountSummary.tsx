@@ -27,7 +27,11 @@ export function BankAccountSummary({
           {getBalanceTypeLabel(account.balanceType)}
         </h4>
       </section>
-      <Link className={styles.bankAccountSummaryLink} to=".">
+      <Link
+        className={styles.bankAccountSummaryLink}
+        to={`/bank-account/$bankAccountId/transactions`}
+        params={{ bankAccountId: account.id }}
+      >
         View transactions
       </Link>
     </li>

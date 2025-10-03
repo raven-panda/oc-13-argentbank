@@ -5,6 +5,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import SignInPage from '../views/SignInPage';
 import BankAccountsPage from '../views/BankAccountsPage';
 import { RequireAuthentication } from '../components/auth/AuthProviders';
+import TransactionPage from '../views/TransactionPage';
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -57,7 +58,13 @@ const bankAccountRoute = createRoute({
   component: BankAccountsPage,
 });
 
+const transactionsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/bank-account/$bankAccountId/transactions',
+  component: TransactionPage,
+});
+
 export const routeTree = rootRoute.addChildren([
   publicRoute.addChildren([homeRoute, signInRoute]),
-  protectedRoute.addChildren([bankAccountRoute]),
+  protectedRoute.addChildren([bankAccountRoute, transactionsRoute]),
 ]);
