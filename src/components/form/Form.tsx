@@ -104,6 +104,7 @@ export default function Form({
                       ].join(' ')}
                       type={fieldGroup.fields[fieldName].type}
                       autoComplete={fieldGroup.fields[fieldName].autocomplete}
+                      placeholder={fieldGroup.fields[fieldName].placeholder}
                       name={field.name}
                       onBlur={field.handleBlur}
                       onChange={(e) => {

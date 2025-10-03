@@ -15,11 +15,12 @@ interface FormSchemaGroup {
   };
 }
 interface FormSchemaField {
-  defaultValue: any;
+  defaultValue: string | number | boolean | object;
   label?: string;
   type?: HTMLInputTypeAttribute;
   autocomplete?: HTMLInputAutoCompleteAttribute;
   validator?: ZodType;
+  placeholder?: string;
 }
 
 export function extractFormSchemaValues(
