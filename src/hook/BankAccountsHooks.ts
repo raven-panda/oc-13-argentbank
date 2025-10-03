@@ -30,5 +30,5 @@ export function useBankAccount(id: string) {
     retry: false,
   });
 
-  return { bankAccount, isLoading };
+  return { bankAccount: bankAccount?.body, isLoading };
 }

@@ -1,0 +1,19 @@
+.transactionsPageHeader {
+  padding: 24px 30vw;
+  border: solid 2px var(--color-dark-3);
+}
+
+.transactionsPageHeader > h1,
+.transactionsPageHeader > h3 {
+  margin: 0;
+}
+.transactionsPageHeader > h1 {
+  font-size: 1rem;
+}
+.transactionsPageHeader > h2 {
+  font-size: 2rem;
+  margin: 12px 0;
+}
+.transactionsPageHeader > h3 {
+  font-size: 0.75rem;
+}
