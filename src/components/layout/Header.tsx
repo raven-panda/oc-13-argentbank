@@ -10,7 +10,7 @@ export default function LayoutHeader() {
   return (
     <nav className={styles.mainHeader}>
       <Link to="/">
-        <img src="argent-bank-logo.png" alt="Argent Bank Logo" width={200} />
+        <img src="/argent-bank-logo.png" alt="Argent Bank Logo" width={200} />
       </Link>
       {isAuthenticated ? (
         <div className={styles.authenticatedUserInfos}>

@@ -1,5 +1,6 @@
 import styles from '../assets/css/bank-accounts-page.module.css';
 import { BankAccountSummary } from '../components/bank-accounts/BankAccountSummary';
+import { LoaderIndicator } from '../components/layout/LoaderIndicator';
 import UsernameEdit from '../components/profile/UsernameEdit';
 import { useAuth } from '../hook/AuthHooks';
 import { useBankAccountsSummaries } from '../hook/BankAccountsHooks';
@@ -22,7 +23,7 @@ export default function BankAccountsPage() {
         userLoading={userLoading}
       />
       {bankAccountsLoading ? (
-        'Chargement...'
+        <LoaderIndicator />
       ) : bankAccounts && bankAccounts.length > 0 ? (
         <ul className={styles.bankAccountsSummariesContainer}>
           {bankAccounts.map((account) => (
