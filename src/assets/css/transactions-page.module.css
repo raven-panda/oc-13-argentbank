@@ -24,3 +24,15 @@
   align-items: center;
   background-color: var(--color-main-2);
 }
+.transactionsTable {
+  margin-top: 10vh;
+  width: 80%;
+  table-layout: fixed;
+}
+.transactionsTable > tbody {
+  background-color: var(--color-main-1);
+  outline: solid 2px var(--color-dark-3);
+}
+.transactionsTable .tableChevron {
+  width: 32px;
+}
