@@ -2,9 +2,8 @@ import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { putUserProfile } from '../../api/user-api-queries';
 import styles from '../../assets/css/components/username-edit.module.css';
-import { PROFILE_URI } from '../../definitions/api/api-uri';
-import { api } from '../../queryClient';
 import Form from '../form/Form';
 import getUsernameEditForm from '../form/schema/username-edit-form/UsernameEditFormSchema';
 
@@ -21,7 +20,7 @@ export default function UsernameEdit({
   const editUsername = async (newFirstName: string, newLastName: string) => {
     if (userFirstName === newFirstName && userLastName === newLastName) return;
 
-    await api.put(PROFILE_URI, {
+    await putUserProfile({
       firstName: newFirstName,
       lastName: newLastName,
     });

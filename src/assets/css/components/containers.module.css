@@ -1,0 +1,36 @@
+.bankAccountSummary {
+  list-style-type: none;
+  background-color: var(--color-main-1);
+  display: flex;
+  align-items: center;
+  padding: 22px 18px;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  border: solid 2px var(--color-dark-3);
+  justify-content: space-between;
+}
+
+.bankAccountSummary h2,
+.bankAccountSummary h3,
+.bankAccountSummary h4 {
+  margin: 0;
+}
+
+.bankAccountSummary .cardMainTitle {
+  font-size: 2rem;
+}
+.bankAccountSummary .cardSubTitle {
+  font-size: 1rem;
+}
+.bankAccountSummary .cardThirdTitle {
+  font-size: 0.75rem;
+}
+
+.bankAccountSummaryLink {
+  color: var(--color-main-1);
+  padding: 16px 24px;
+  border-radius: 6px;
+  background-color: var(--color-blue-1);
+  text-decoration: none;
+}

@@ -1,0 +1,16 @@
+.bodyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-main-2);
+}
+
+.bankAccountsSummariesContainer {
+  padding: 0 200px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.bankAccountsSummariesContainer > li:not(:last-child) {
+  margin-bottom: 40px;
+}
