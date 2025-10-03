@@ -9,9 +9,7 @@ export default function BankAccountsPage() {
   const { bankAccounts, isLoading: bankAccountsLoading } =
     useBankAccountsSummaries();
 
-  if (userLoading) {
-    return <>Chargement...</>;
-  } else if (!user) {
+  if (!userLoading && !user) {
     return <>Une erreur s'est produite.</>;
   }
 
@@ -19,8 +17,9 @@ export default function BankAccountsPage() {
     <main className={styles.bodyContainer}>
       <h1>Welcome back</h1>
       <UsernameEdit
-        userFirstName={user.firstName}
-        userLastName={user.lastName}
+        userFirstName={user?.firstName}
+        userLastName={user?.lastName}
+        userLoading={userLoading}
       />
       {bankAccountsLoading ? (
         'Chargement...'

@@ -6,13 +6,16 @@ import { putUserProfile } from '../../api/user-api-queries';
 import styles from '../../assets/css/components/username-edit.module.css';
 import Form from '../form/Form';
 import getUsernameEditForm from '../form/schema/username-edit-form/UsernameEditFormSchema';
+import { LoaderIndicator } from '../layout/LoaderIndicator';
 
 export default function UsernameEdit({
   userFirstName,
   userLastName,
+  userLoading,
 }: {
-  userFirstName: string;
-  userLastName: string;
+  userFirstName?: string;
+  userLastName?: string;
+  userLoading: boolean;
 }) {
   const queryClient = useQueryClient();
   const [isEditing, setEditing] = useState(false);
@@ -44,12 +47,21 @@ export default function UsernameEdit({
     />
   ) : (
     <div className={styles.usernameParagraph}>
-      <p>
-        {userFirstName} {userLastName}
-      </p>
-      <button onClick={() => setEditing(true)} className={styles.editButton}>
-        <FontAwesomeIcon icon={faUserEdit} size="sm" /> Edit your name
-      </button>
+      {userLoading ? (
+        <LoaderIndicator />
+      ) : (
+        <>
+          <p>
+            {userFirstName} {userLastName}
+          </p>
+          <button
+            onClick={() => setEditing(true)}
+            className={styles.editButton}
+          >
+            <FontAwesomeIcon icon={faUserEdit} size="sm" /> Edit your name
+          </button>
+        </>
+      )}
     </div>
   );
 }
