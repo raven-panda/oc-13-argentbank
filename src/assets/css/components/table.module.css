@@ -1,0 +1,12 @@
+.expandableTable {
+  margin-top: 10vh;
+  width: 80%;
+  table-layout: fixed;
+}
+.expandableTable > tbody {
+  background-color: var(--color-main-1);
+  outline: solid 2px var(--color-dark-3);
+}
+.expandableTable .tableChevron {
+  width: 32px;
+}

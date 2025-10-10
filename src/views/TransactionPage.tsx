@@ -1,12 +1,10 @@
 import { useParams } from '@tanstack/react-router';
-import { useBankAccount } from '../hook/BankAccountsHooks';
 import styles from '../assets/css/transactions-page.module.css';
+import { TransactionsTable } from '../components/bank-accounts/transactions/TransactionsTable';
+import { LoaderIndicator } from '../components/layout/LoaderIndicator';
+import { useBankAccount } from '../hook/BankAccountsHooks';
 import { getAccountBalanceTypeLabel } from '../utils/BankAccountUtils';
 import { formatWithThousandsSeparator } from '../utils/FormatUtils';
-import { LoaderIndicator } from '../components/layout/LoaderIndicator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { format as formatDate } from 'date-format-parse';
 
 export default function TransactionPage() {
   const { bankAccountId } = useParams({
@@ -21,7 +19,9 @@ export default function TransactionPage() {
           <LoaderIndicator />
         ) : (
           <>
-            <h1>{bankAccount?.name}</h1>
+            <h1>
+              {bankAccount?.name} (x{bankAccount?.lastDigits})
+            </h1>
             <h2>
               $
               {bankAccount?.balanceAmount &&
@@ -35,36 +35,7 @@ export default function TransactionPage() {
         )}
       </header>
       <main className={styles.bodyContainer}>
-        <table
-          className={styles.transactionsTable}
-          cellSpacing={0}
-          cellPadding={12}
-        >
-          <thead>
-            <tr>
-              <th className={styles.tableChevron}></th>
-              <th>DATE</th>
-              <th>DESCRIPTION</th>
-              <th>AMOUNT</th>
-              <th>BALANCE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bankAccount?.transactions.map((transaction) => (
-              <tr>
-                <td className={styles.tableChevron}>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </td>
-                <td>
-                  {formatDate(new Date(transaction.date), 'MMMM DD, YYYY')}
-                </td>
-                <td>{transaction.description}</td>
-                <td>${transaction.costAmount}</td>
-                <td>${transaction.balanceAmount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <TransactionsTable transactions={bankAccount?.transactions} />
       </main>
     </>
   );

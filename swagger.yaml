@@ -220,20 +220,49 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ApiResponse'
-  /bank-accounts/{bankAccountId}/transactions/{transactionId}:
+  /transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transaction by ID
+      description: Retrieves transaction data identified by the given ID
+      parameters:
+        - in: path
+          name: transactionId
+          description: Transaction ID
+          type: integer
+          required: true
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction data updated successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    $ref: '#/definitions/Transaction'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
     put:
       security:
         - Bearer: []
       tags:
-        - Bank Accounts Module
+        - Transactions Module
       summary: Update transaction
       description: Updates transaction data defined with given ID
       parameters:
-        - in: path
-          name: bankAccountId
-          description: Bank Account ID
-          type: integer
-          required: true
         - in: path
           name: transactionId
           description: Transaction ID
@@ -266,6 +295,102 @@ paths:
           description: Invalid Fields
           schema:
             $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /transactions/last-month:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transactions registered in the last 30 days
+      description: Retrieves transaction data identified by the given ID registered in the last month
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction data updated successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    type: array
+                    items:
+                      $ref: '#/definitions/Transaction'     
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /transactions-types:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transactions categories
+      description: Fetches available transaction types
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User bank account data retrieved successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    type: array
+                    items:
+                      $ref: "#/definitions/TransactionPaymentType"
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /transactions-categories:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transactions categories
+      description: Fetches available transaction categories
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User bank account data retrieved successully
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiResponse'
+              - type: object
+                properties:
+                  body:
+                    type: array
+                    items:
+                      $ref: "#/definitions/TransactionCategory"
         '500':
           description: Internal Server Error
           schema:
@@ -376,7 +501,7 @@ definitions:
       transactions:
         type: array
         items:
-          $ref: '#/definitions/Transaction'      
+          $ref: '#/definitions/Transaction'
   Transaction:
     type: object
     description: Transaction data for bank account requests endpoints
@@ -386,9 +511,9 @@ definitions:
       description:
         type: string
       type:
-        type: string
+        $ref: "#/definitions/TransactionPaymentTypeEnum"
       category:
-        type: string
+        $ref: "#/definitions/TransactionCategoryEnum"
       userNotes:
         type: string
       date:
@@ -397,6 +522,22 @@ definitions:
         type: integer
       balanceAmount:
         type: integer
+  TransactionPaymentType:
+    type: object
+    description: Transaction type ID - label pairs
+    properties:
+      id:
+        $ref: "#/definitions/TransactionPaymentTypeEnum"
+      label:
+        type: string
+  TransactionCategory:
+    type: object
+    description: Transaction category ID - label pairs
+    properties:
+      id:
+        $ref: "#/definitions/TransactionCategoryEnum"
+      label:
+        type: string
 
   #
   # Other types definitions
@@ -407,4 +548,23 @@ definitions:
     enum:
       - AVAILABLE
       - CURRENT
+  TransactionPaymentTypeEnum:
+    description: String enum definition for transaction type (means of payment)
+    type: string
+    enum:
+      - ELECTRONIC
+  TransactionCategoryEnum:
+    description: String enum definition for transaction categories
+    type: string
+    enum:
+      - FOOD
+      - SCHOOL_STUDIES
+      - HEALTH
+      - HOUSING
+      - VEHICLE
+      - HOBBIES
+      - VACATIONS
+      - PETS
+      - TAXES
+      - OTHER
     

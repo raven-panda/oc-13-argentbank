@@ -1,9 +1,22 @@
 export type AccountBalanceType = 'AVAILABLE' | 'CURRENT';
+export type TransactionPaymentType = 'ELECTRONIC';
+export type TransactionCategoryType =
+  | 'FOOD'
+  | 'SCHOOL_STUDIES'
+  | 'HEALTH'
+  | 'HOUSING'
+  | 'VEHICLE'
+  | 'HOBBIES'
+  | 'VACATIONS'
+  | 'PETS'
+  | 'TAXES'
+  | 'OTHER';
 
 export interface BankAccountSummary {
   id: string;
   name: string;
   balanceAmount: number;
+  lastDigits: string;
   balanceType: AccountBalanceType;
 }
 
@@ -14,8 +27,8 @@ export interface BankAccount extends BankAccountSummary {
 export interface Transaction {
   id: string;
   description: string;
-  type: string;
-  category: string;
+  type: TransactionPaymentType;
+  category: TransactionCategoryType;
   userNotes: string;
   date: string;
   costAmount: number;

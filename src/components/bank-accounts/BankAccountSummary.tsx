@@ -12,7 +12,9 @@ export function BankAccountSummary({
   return (
     <li className={styles.bankAccountSummary}>
       <section>
-        <h2 className={styles.cardSubTitle}>{account.name}</h2>
+        <h2 className={styles.cardSubTitle}>
+          {account.name} (x{account.lastDigits})
+        </h2>
         <h3 className={styles.cardMainTitle}>
           ${formatWithThousandsSeparator(account.balanceAmount)}
         </h3>
