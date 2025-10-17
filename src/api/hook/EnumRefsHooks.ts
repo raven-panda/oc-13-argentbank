@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   getTransactionCategoriesEnumReferences,
   getTransactionPaymentTypesEnumReferences,
-} from '../enum-references-api-queries';
+} from '../queries/enum-references-api-queries';
 import type { ApiResponse } from '../definitions/api-response';
 import type { EnumReferences } from '../definitions/enum-reference';
 

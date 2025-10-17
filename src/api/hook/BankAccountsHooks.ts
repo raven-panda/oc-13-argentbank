@@ -8,7 +8,7 @@ import {
   getBankAccounts,
   getLastMontTransactionsByBankAccountId,
   putBankAccountTransaction,
-} from '../bank-account-api-queries';
+} from '../queries/bank-account-api-queries';
 import type { ApiResponse } from '../definitions/api-response';
 import { useState } from 'react';
 import client from '../../queryClient';

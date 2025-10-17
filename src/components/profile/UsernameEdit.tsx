@@ -2,7 +2,7 @@ import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { putUserProfile } from '@/api/user-api-queries';
+import { putUserProfile } from '@/api/queries/user-api-queries';
 import styles from '@/assets/css/components/username-edit.module.css';
 import Form from '../form/main/Form';
 import getUsernameEditForm from '../form/schema/username-edit-form/UsernameEditFormSchema';

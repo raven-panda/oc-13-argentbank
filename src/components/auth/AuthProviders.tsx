@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Navigate } from '@tanstack/react-router';
 import { useMemo, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
-import { postUserLogin, postUserProfile } from '@/api/user-api-queries';
+import { postUserLogin, postUserProfile } from '@/api/queries/user-api-queries';
 import type { User } from '@/api/definitions/user';
 import { TOKEN_COOKIE_NAME, TOKEN_EXPIRATION_MS } from '@/constants';
 import { useAuth } from './hook/AuthHooks';
