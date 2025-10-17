@@ -19,7 +19,7 @@ interface AuthenticationState {
 
 const initialState: AuthenticationState = {
   profile: undefined,
-  accessToken: cookies.get(TOKEN_COOKIE_NAME),
+  accessToken: undefined,
   isLoading: false,
   isAuthenticated: false,
 };
@@ -71,7 +71,11 @@ export const authenticationActions = {
 
 const authenticationSlice = createSlice({
   name: 'authentication',
-  initialState,
+  initialState: {
+    ...initialState,
+    accessToken: cookies.get(TOKEN_COOKIE_NAME),
+    isAuthenticated: !!cookies.get(TOKEN_COOKIE_NAME),
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder

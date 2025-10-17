@@ -1,14 +1,12 @@
+import styles from '@/assets/css/sign-in.module.css';
+import { useAuth } from '@/components/auth/hook/AuthHooks';
+import Form from '@/components/form/main/Form';
+import { getUserAuthForm } from '@/components/form/schema/auth-form/AuthFormSchema';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from '@/assets/css/sign-in.module.css';
-import Form from '@/components/form/main/Form';
-import { useNavigate } from '@tanstack/react-router';
-import { useAuth } from '@/components/auth/hook/AuthHooks';
-import { getUserAuthForm } from '@/components/form/schema/auth-form/AuthFormSchema';
 import { AxiosError } from 'axios';
 
 export default function SignInPage() {
-  const navigate = useNavigate();
   const { login } = useAuth();
 
   return (
@@ -28,7 +26,6 @@ export default function SignInPage() {
                 rememberMe: value.rememberMe,
               });
               success = true;
-              navigate({ to: '/bank-account' });
             } catch (e) {
               if (e instanceof AxiosError && e.status === 400)
                 error =

@@ -5,6 +5,7 @@ import { Navigate } from '@tanstack/react-router';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
 import { useAuth } from './hook/AuthHooks';
+import { LoaderIndicator } from '../layout/LoaderIndicator';
 
 /* Type Definitions */
 export type AuthState = {
@@ -14,16 +15,19 @@ export type AuthState = {
 };
 
 export function RequireAuthentication({ children }: { children: ReactNode }) {
-  const { loading, isAuthenticated, logout } = useAuth();
+  const dispatch = useAppDispatch();
+  const { user, loading, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       logout();
+    } else if (!user) {
+      dispatch(authenticationActions.getProfile());
     }
-  }, [loading, isAuthenticated, logout]);
+  }, [user, loading, isAuthenticated, logout, dispatch]);
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <LoaderIndicator />;
   } else if (!isAuthenticated) {
     return <Navigate to="/sign-in" />;
   }
@@ -49,7 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         rememberMe: boolean;
       }) => {
         await dispatch(authenticationActions.login(props));
-        await dispatch(authenticationActions.getProfile());
       },
       logout: () => dispatch(authenticationActions.logout()),
     }),

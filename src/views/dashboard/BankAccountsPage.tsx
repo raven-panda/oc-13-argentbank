@@ -10,7 +10,7 @@ export default function BankAccountsPage() {
   const { bankAccounts, isLoading } = useBankAccounts();
 
   if (!userLoading && !user) {
-    return <>Une erreur s'est produite.</>;
+    return <>An error occurred.</>;
   }
 
   return (
