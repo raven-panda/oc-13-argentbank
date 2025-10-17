@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { useAuth } from '../auth/hook/AuthHooks';
-import styles from '../../assets/css/components/layout.module.css';
+import styles from '@/assets/css/components/layout.module.css';
 import { faSignOut, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

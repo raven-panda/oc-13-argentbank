@@ -1,6 +1,6 @@
 import type { UseMutateAsyncFunction } from '@tanstack/react-query';
-import type { AuthState } from './AuthProviders';
 import { createContext } from 'react';
+import type { AuthState } from './AuthProviders';
 
 /* Type Definitions */
 type AuthContextType = AuthState & {

@@ -1,7 +1,7 @@
 import type {
   BankAccountSummary,
   Transaction,
-} from '../definitions/api/bank-account';
+} from '@/definitions/api/bank-account';
 
 export const bankAccountFixtures: {
   accountsSummaries: BankAccountSummary[];

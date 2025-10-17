@@ -1,9 +1,9 @@
-import styles from '../assets/css/bank-accounts-page.module.css';
-import { BankAccountSummary } from '../components/bank-accounts/BankAccountSummary';
-import { LoaderIndicator } from '../components/layout/LoaderIndicator';
-import UsernameEdit from '../components/profile/UsernameEdit';
-import { useAuth } from '../components/auth/hook/AuthHooks';
-import { useBankAccountsSummaries } from '../api/hook/BankAccountsHooks';
+import styles from '@/assets/css/bank-accounts-page.module.css';
+import { BankAccountSummary } from '@/components/bank-accounts/BankAccountSummary';
+import { LoaderIndicator } from '@/components/layout/LoaderIndicator';
+import UsernameEdit from '@/components/profile/UsernameEdit';
+import { useAuth } from '@/components/auth/hook/AuthHooks';
+import { useBankAccountsSummaries } from '@/api/hook/BankAccountsHooks';
 
 export default function BankAccountsPage() {
   const { user, loading: userLoading } = useAuth();

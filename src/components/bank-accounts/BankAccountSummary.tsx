@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
-import type { BankAccountSummary } from '../../definitions/api/bank-account';
-import styles from '../../assets/css/components/containers.module.css';
-import { formatWithThousandsSeparator } from '../../utils/FormatUtils';
-import { getAccountBalanceTypeLabel } from '../../utils/BankAccountUtils';
+import type { BankAccountSummary } from '@/definitions/api/bank-account';
+import styles from '@/assets/css/components/containers.module.css';
+import { formatWithThousandsSeparator } from '@/utils/FormatUtils';
+import { getAccountBalanceTypeLabel } from '@/utils/BankAccountUtils';
 
 export function BankAccountSummary({
   account,

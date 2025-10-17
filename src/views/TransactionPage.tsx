@@ -1,13 +1,13 @@
 import { useParams } from '@tanstack/react-router';
-import styles from '../assets/css/transactions-page.module.css';
-import { TransactionsTable } from '../components/bank-accounts/transactions/TransactionsTable';
-import { LoaderIndicator } from '../components/layout/LoaderIndicator';
+import styles from '@/assets/css/transactions-page.module.css';
+import { TransactionsTable } from '@/components/bank-accounts/transactions/TransactionsTable';
+import { LoaderIndicator } from '@/components/layout/LoaderIndicator';
 import {
   useBankAccount,
   useLastMonthTransactions,
-} from '../api/hook/BankAccountsHooks';
-import { getAccountBalanceTypeLabel } from '../utils/BankAccountUtils';
-import { formatWithThousandsSeparator } from '../utils/FormatUtils';
+} from '@/api/hook/BankAccountsHooks';
+import { getAccountBalanceTypeLabel } from '@/utils/BankAccountUtils';
+import { formatWithThousandsSeparator } from '@/utils/FormatUtils';
 
 export default function TransactionPage() {
   const { bankAccountId } = useParams({

@@ -1,8 +1,8 @@
-import { buildApiResponseFixture } from '../__fixtures__/apiResponseFixture';
+import { buildApiResponseFixture } from '@/__fixtures__/apiResponseFixture';
 import {
   transactionCategoryReferencesFixture,
   transactionPaymentTypeReferencesFixture,
-} from '../__fixtures__/enumReferencesFixture';
+} from '@/__fixtures__/enumReferencesFixture';
 
 const isFixtureEnabled = import.meta.env.VITE_ENABLE_FIXTURE === 'true';
 

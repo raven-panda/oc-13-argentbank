@@ -1,5 +1,5 @@
 import { Outlet } from '@tanstack/react-router';
-import styles from '../../assets/css/components/layout.module.css';
+import styles from '@/assets/css/components/layout.module.css';
 import LayoutHeader from './Header';
 
 export default function MainLayout() {

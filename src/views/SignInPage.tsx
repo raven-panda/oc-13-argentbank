@@ -1,10 +1,10 @@
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from '../assets/css/sign-in.module.css';
-import Form from '../components/form/main/Form';
+import styles from '@/assets/css/sign-in.module.css';
+import Form from '@/components/form/main/Form';
 import { useNavigate } from '@tanstack/react-router';
-import { useAuth } from '../components/auth/hook/AuthHooks';
-import { getUserAuthForm } from '../components/form/schema/auth-form/AuthFormSchema';
+import { useAuth } from '@/components/auth/hook/AuthHooks';
+import { getUserAuthForm } from '@/components/form/schema/auth-form/AuthFormSchema';
 import { AxiosError } from 'axios';
 
 export default function SignInPage() {

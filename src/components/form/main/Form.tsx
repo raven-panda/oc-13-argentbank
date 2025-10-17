@@ -4,7 +4,7 @@ import {
   formatFieldValidators,
   isFieldRequired,
 } from './FormUtils';
-import styles from '../../assets/css/components/form.module.css';
+import styles from '@/assets/css/components/form.module.css';
 import z from 'zod';
 import type { ReactNode } from 'react';
 import type {
