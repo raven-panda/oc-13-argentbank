@@ -10,3 +10,23 @@
 .expandableTable .tableChevron {
   width: 32px;
 }
+
+.transactionRow:hover {
+  cursor: pointer;
+  background-color: var(--color-fade-2);
+}
+.transactionDetails {
+  background-color: var(--color-fade-1);
+  text-align: left;
+}
+.transactionDetails[data-open='false'] {
+  display: none;
+}
+.transactionEditDetail > p {
+  display: inline-block;
+  margin: 6px 0;
+}
+.transactionEditDetail button {
+  background: unset;
+  border: none;
+}

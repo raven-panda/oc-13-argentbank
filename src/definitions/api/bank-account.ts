@@ -26,9 +26,10 @@ export interface BankAccount extends BankAccountSummary {
 
 export interface Transaction {
   id: string;
+  bankAccountId: string;
   description: string;
   type: TransactionPaymentType;
-  category: TransactionCategoryType;
+  category: string;
   userNotes: string;
   date: string;
   costAmount: number;

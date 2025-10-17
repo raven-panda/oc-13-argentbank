@@ -25,27 +25,43 @@ export async function getBankAccounts() {
 export async function getBankAccountById(id: string) {
   if (isFixtureEnabled)
     return buildApiResponseFixture(
-      bankAccountFixtures.accounts.find((a) => a.id === id),
+      bankAccountFixtures.accountsSummaries.find((a) => a.id === id),
     );
 
   throw new Error(
     'This route is not implemented on backend side yet. Please use fixtures.',
   );
 }
+
+/**
+ * Request GET to /bank-accounts/:id/transactions/last-month
+ * @returns Request resulted user's transactions data of the bank account identified by given ID
+ */
+export async function getLastMontTransactionsByBankAccountId(
+  bankAccountId: string,
+) {
+  if (isFixtureEnabled)
+    return buildApiResponseFixture(
+      bankAccountFixtures.transactions.filter(
+        (a) => a.bankAccountId === bankAccountId,
+      ),
+    );
+
+  throw new Error(
+    'This route is not implemented on backend side yet. Please use fixtures.',
+  );
+}
+
 /**
  * Request POST to /bank-accounts/:accountId/transactions/:transactionId
  * @returns Updated transaction data
  */
 export async function putBankAccountTransaction(
-  accountId: string,
   transactionId: string,
   body: TransactionUpdateRequest,
 ) {
   if (isFixtureEnabled) {
-    const account = bankAccountFixtures.accounts.find(
-      (a) => a.id === accountId,
-    );
-    const transaction = account?.transactions.find(
+    const transaction = bankAccountFixtures?.transactions.find(
       (t) => t.id === transactionId,
     );
 
@@ -57,9 +73,11 @@ export async function putBankAccountTransaction(
         }
       : undefined;
 
-    if (account?.transactions && updatedTransaction)
-      account.transactions = [
-        ...account.transactions.filter((t) => t.id !== updatedTransaction.id),
+    if (bankAccountFixtures?.transactions && updatedTransaction)
+      bankAccountFixtures.transactions = [
+        ...bankAccountFixtures.transactions.filter(
+          (t) => t.id !== updatedTransaction.id,
+        ),
         updatedTransaction,
       ];
 
