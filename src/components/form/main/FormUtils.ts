@@ -1,27 +1,6 @@
-import type {
-  HTMLInputAutoCompleteAttribute,
-  HTMLInputTypeAttribute,
-} from 'react';
 import type { ZodType } from 'zod';
+import type { FormSchema } from './FormTypes';
 import type { $ZodCheck } from 'zod/v4/core';
-
-export type FieldValidator = (value: any) => string | undefined;
-export type FormSchema = FormSchemaGroup[];
-interface FormSchemaGroup {
-  layoutType: 'row' | 'column';
-  gap?: 'small' | 'medium' | 'large';
-  fields: {
-    [key: string]: FormSchemaField;
-  };
-}
-interface FormSchemaField {
-  defaultValue: string | number | boolean | object;
-  label?: string;
-  type?: HTMLInputTypeAttribute;
-  autocomplete?: HTMLInputAutoCompleteAttribute;
-  validator?: ZodType;
-  placeholder?: string;
-}
 
 export function extractFormSchemaValues(
   schema: FormSchema,

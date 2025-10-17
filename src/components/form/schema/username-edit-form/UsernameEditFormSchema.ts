@@ -1,5 +1,5 @@
 import z from 'zod';
-import type { FormSchema } from '../../../../utils/FormUtils';
+import type { FormSchema } from '../../main/FormTypes';
 
 export default function getUsernameEditForm(defaultValues: {
   firstName: string | undefined;

@@ -3,18 +3,15 @@ import {
   extractFormSchemaValues,
   formatFieldValidators,
   isFieldRequired,
-  type FormSchema,
-} from '../../utils/FormUtils';
+} from './FormUtils';
 import styles from '../../assets/css/components/form.module.css';
 import z from 'zod';
 import type { ReactNode } from 'react';
-
-interface SubmitButtonProps {
-  canSubmit: boolean;
-}
-interface CancelButtonProps {
-  reset: () => void;
-}
+import type {
+  CancelButtonProps,
+  FormSchema,
+  SubmitButtonProps,
+} from './FormTypes';
 
 export default function Form({
   schema,
