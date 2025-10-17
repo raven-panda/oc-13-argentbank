@@ -1,7 +1,7 @@
 import type {
   TransactionCategoryType,
   TransactionPaymentType,
-} from '@/definitions/api/bank-account';
+} from '@/api/definitions/bank-account';
 
 export const transactionPaymentTypeReferencesFixture: {
   id: TransactionPaymentType;

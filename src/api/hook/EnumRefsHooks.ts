@@ -3,8 +3,8 @@ import {
   getTransactionCategoriesEnumReferences,
   getTransactionPaymentTypesEnumReferences,
 } from '../enum-references-api-queries';
-import type { ApiResponse } from '../../definitions/api/api-response';
-import type { EnumReferences } from '../../definitions/api/enum-reference';
+import type { ApiResponse } from '../definitions/api-response';
+import type { EnumReferences } from '../definitions/enum-reference';
 
 export function useTransactionEnumReferences() {
   const { data: paymentTypes, isLoading: isPaymentTypesLoading } = useQuery<

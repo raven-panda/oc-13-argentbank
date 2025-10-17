@@ -3,11 +3,8 @@ import { Navigate } from '@tanstack/react-router';
 import { useMemo, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { postUserLogin, postUserProfile } from '@/api/user-api-queries';
-import type { User } from '@/definitions/api/user';
-import {
-  TOKEN_COOKIE_NAME,
-  TOKEN_EXPIRATION_MS,
-} from '@/definitions/constants';
+import type { User } from '@/api/definitions/user';
+import { TOKEN_COOKIE_NAME, TOKEN_EXPIRATION_MS } from '@/constants';
 import { useAuth } from './hook/AuthHooks';
 import { AuthContext } from './AuthContext';
 

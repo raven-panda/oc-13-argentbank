@@ -8,7 +8,7 @@ import {
   type MouseEvent,
 } from 'react';
 import styles from '../../../assets/css/components/table.module.css';
-import type { Transaction } from '../../../definitions/api/bank-account';
+import type { Transaction } from '../../../api/definitions/bank-account';
 import { useTransactionEnumReferences } from '../../../api/hook/EnumRefsHooks';
 import EditableTransactionRowData from './EditableTransactionRowData';
 

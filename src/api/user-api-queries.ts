@@ -1,8 +1,8 @@
 import { buildApiResponseFixture } from '@/__fixtures__/apiResponseFixture';
 import { userFixtures } from '@/__fixtures__/userFixtures';
-import type { ApiResponse } from '@/definitions/api/api-response';
-import { LOGIN_URI, PROFILE_URI } from '@/definitions/api/api-uri';
-import type { User } from '@/definitions/api/user';
+import type { ApiResponse } from '@/api/definitions/api-response';
+import { LOGIN_URI, PROFILE_URI } from '@/api/definitions/api-uri';
+import type { User } from '@/api/definitions/user';
 import { api } from '@/queryClient';
 
 const isFixtureEnabled = import.meta.env.VITE_ENABLE_FIXTURE === 'true';

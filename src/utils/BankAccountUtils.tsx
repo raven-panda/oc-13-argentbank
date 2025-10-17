@@ -1,4 +1,4 @@
-import type { AccountBalanceType } from '@/definitions/api/bank-account';
+import type { AccountBalanceType } from '@/api/definitions/bank-account';
 
 export const getAccountBalanceTypeLabel = (balanceType: AccountBalanceType) => {
   if (balanceType === 'CURRENT') return 'Current Balance';

@@ -1,6 +1,6 @@
 import { buildApiResponseFixture } from '@/__fixtures__/apiResponseFixture';
 import { bankAccountFixtures } from '@/__fixtures__/bankAccountFixtures';
-import type { TransactionUpdateRequest } from '@/definitions/api/bank-account';
+import type { TransactionUpdateRequest } from '@/api/definitions/bank-account';
 
 const isFixtureEnabled = import.meta.env.VITE_ENABLE_FIXTURE === 'true';
 

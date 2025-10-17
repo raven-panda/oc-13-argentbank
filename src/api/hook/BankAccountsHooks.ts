@@ -2,14 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import type {
   BankAccountSummary,
   Transaction,
-} from '../../definitions/api/bank-account';
+} from '../definitions/bank-account';
 import {
   getBankAccountById,
   getBankAccounts,
   getLastMontTransactionsByBankAccountId,
   putBankAccountTransaction,
 } from '../bank-account-api-queries';
-import type { ApiResponse } from '../../definitions/api/api-response';
+import type { ApiResponse } from '../definitions/api-response';
 import { useState } from 'react';
 import client from '../../queryClient';
 

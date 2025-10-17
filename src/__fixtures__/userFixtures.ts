@@ -1,4 +1,4 @@
-import type { User } from '@/definitions/api/user';
+import type { User } from '@/api/definitions/user';
 
 export const userFixtures: {
   login: { token: string };

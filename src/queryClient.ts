@@ -1,8 +1,8 @@
 // queryClient.ts
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { TOKEN_COOKIE_NAME } from './definitions/constants';
-import { API_BASE_URL } from './definitions/api/api-uri';
+import { TOKEN_COOKIE_NAME } from '@/constants';
+import { API_BASE_URL } from '@/api/definitions/api-uri';
 
 const client = new QueryClient();
 
