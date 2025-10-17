@@ -18,13 +18,9 @@ export default function LayoutHeader() {
             <FontAwesomeIcon icon={faUserCircle} /> {user?.firstName}{' '}
             {user?.lastName}
           </Link>
-          <Link
-            onClick={() => logout()}
-            to="/sign-in"
-            className={styles.headerButton}
-          >
+          <button onClick={() => logout()} className={styles.headerButton}>
             <FontAwesomeIcon icon={faSignOut} /> Sign Out
-          </Link>
+          </button>
         </div>
       ) : (
         <Link to="/sign-in" className={styles.headerButton}>

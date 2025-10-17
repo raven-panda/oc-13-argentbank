@@ -1,9 +1,9 @@
+import { useAppDispatch } from '@/api/Hooks';
+import { authenticationApi } from '@/api/slices/AuthenticationSlice';
+import styles from '@/assets/css/components/username-edit.module.css';
 import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { putUserProfile } from '@/api/queries/user-api-queries';
-import styles from '@/assets/css/components/username-edit.module.css';
 import Form from '../form/main/Form';
 import getUsernameEditForm from '../form/schema/username-edit-form/UsernameEditFormSchema';
 import { LoaderIndicator } from '../layout/LoaderIndicator';
@@ -17,17 +17,18 @@ export default function UsernameEdit({
   userLastName?: string;
   userLoading: boolean;
 }) {
-  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const [isEditing, setEditing] = useState(false);
 
   const editUsername = async (newFirstName: string, newLastName: string) => {
     if (userFirstName === newFirstName && userLastName === newLastName) return;
 
-    await putUserProfile({
-      firstName: newFirstName,
-      lastName: newLastName,
-    });
-    queryClient.invalidateQueries({ queryKey: ['getProfile'] });
+    await dispatch(
+      authenticationApi.editUserProfile({
+        firstName: newFirstName,
+        lastName: newLastName,
+      }),
+    );
   };
 
   return isEditing ? (

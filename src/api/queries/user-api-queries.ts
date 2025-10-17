@@ -56,6 +56,9 @@ export async function putUserProfile({
     return buildApiResponseFixture(userFixtures.profile);
   }
 
-  const res = await api.put(PROFILE_URI, { firstName, lastName });
+  const res = await api.put<ApiResponse<User>>(PROFILE_URI, {
+    firstName,
+    lastName,
+  });
   return res.data;
 }

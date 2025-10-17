@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { User } from '../definitions/user';
-import { postUserLogin, postUserProfile } from '../queries/user-api-queries';
+import {
+  postUserLogin,
+  postUserProfile,
+  putUserProfile,
+} from '../queries/user-api-queries';
 import { TOKEN_COOKIE_NAME, TOKEN_EXPIRATION_MS } from '@/constants';
 import { Cookies } from 'react-cookie';
 
@@ -25,6 +29,19 @@ export const authenticationApi = {
     const data = await postUserProfile();
     return data.body;
   }),
+  editUserProfile: createAsyncThunk(
+    'authentication/editUserProfile',
+    async ({
+      firstName,
+      lastName,
+    }: {
+      firstName: string;
+      lastName: string;
+    }) => {
+      const data = await putUserProfile({ firstName, lastName });
+      return data.body;
+    },
+  ),
   login: createAsyncThunk(
     'authentication/login',
     async (
@@ -89,6 +106,18 @@ const authenticationSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(authenticationApi.getProfile.rejected, (state) => {
+        state.isLoading = false;
+      })
+      // Edit user profile
+      .addCase(authenticationApi.editUserProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(authenticationApi.editUserProfile.fulfilled, (state, action) => {
+        const profile = action.payload;
+        state.profile = profile;
+        state.isLoading = false;
+      })
+      .addCase(authenticationApi.editUserProfile.rejected, (state) => {
         state.isLoading = false;
       });
   },
