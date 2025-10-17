@@ -1,10 +1,10 @@
+import { faCheck, faPen, faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import type { Transaction } from '../../../api/definitions/bank-account';
+import type { EnumReferences } from '../../../api/definitions/enum-reference';
 import { useEditBankAccountTransaction } from '../../../api/hook/BankAccountsHooks';
 import styles from '../../../assets/css/components/table.module.css';
-import type { EnumReferences } from '../../../api/definitions/enum-reference';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faCross, faPen } from '@fortawesome/free-solid-svg-icons';
 import SelectInput from '../../form/input/SelectInput';
 
 export default function EditableTransactionRowData({
@@ -79,7 +79,7 @@ export default function EditableTransactionRowData({
         </button>
         {isEditingCategory && (
           <button onClick={() => toggleEditCategory(true)}>
-            <FontAwesomeIcon icon={faCross} />
+            <FontAwesomeIcon icon={faX} />
           </button>
         )}
       </div>
@@ -92,7 +92,7 @@ export default function EditableTransactionRowData({
         </button>
         {isEditingNotes && (
           <button onClick={() => toggleEditNotes(true)}>
-            <FontAwesomeIcon icon={faCross} />
+            <FontAwesomeIcon icon={faX} />
           </button>
         )}
       </div>
