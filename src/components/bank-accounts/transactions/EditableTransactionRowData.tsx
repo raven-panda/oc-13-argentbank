@@ -4,7 +4,7 @@ import { useEditBankAccountTransaction } from '../../../api/hook/BankAccountsHoo
 import styles from '../../../assets/css/components/table.module.css';
 import type { EnumReferences } from '../../../api/definitions/enum-reference';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCross, faPen } from '@fortawesome/free-solid-svg-icons';
 import SelectInput from '../../form/input/SelectInput';
 
 export default function EditableTransactionRowData({
@@ -32,27 +32,29 @@ export default function EditableTransactionRowData({
     );
   };
 
-  const toggleEditCategory = async () => {
+  const toggleEditCategory = async (cancel: boolean = false) => {
     if (isEditTransactionLoading) return;
 
-    if (isEditingCategory)
+    if (isEditingCategory && !cancel)
       await editBankAccountTransaction({
         ...transaction,
         category: editedCategory,
       });
 
+    setEditedCategory(transaction.userNotes);
     setEditingCategory((prev) => !prev);
   };
 
-  const toggleEditNotes = async () => {
+  const toggleEditNotes = async (cancel: boolean = false) => {
     if (isEditTransactionLoading) return;
 
-    if (isEditingNotes)
+    if (isEditingNotes && !cancel)
       await editBankAccountTransaction({
         ...transaction,
         userNotes: editedUserNote,
       });
 
+    setEditedUserNote(transaction.userNotes);
     setEditingNotes((prev) => !prev);
   };
 
@@ -75,6 +77,11 @@ export default function EditableTransactionRowData({
         <button onClick={() => toggleEditCategory()}>
           <FontAwesomeIcon icon={isEditingCategory ? faCheck : faPen} />
         </button>
+        {isEditingCategory && (
+          <button onClick={() => toggleEditCategory(true)}>
+            <FontAwesomeIcon icon={faCross} />
+          </button>
+        )}
       </div>
       <div className={styles.transactionEditDetail}>
         <p>
@@ -83,6 +90,11 @@ export default function EditableTransactionRowData({
         <button onClick={() => toggleEditNotes()}>
           <FontAwesomeIcon icon={isEditingNotes ? faCheck : faPen} />
         </button>
+        {isEditingNotes && (
+          <button onClick={() => toggleEditNotes(true)}>
+            <FontAwesomeIcon icon={faCross} />
+          </button>
+        )}
       </div>
       {isEditingNotes ? (
         <textarea

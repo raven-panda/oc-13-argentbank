@@ -15,7 +15,9 @@ export default function SelectInput({
       defaultValue={defaultValue}
     >
       {choices.map((choice) => (
-        <option value={choice.id}>{choice.label}</option>
+        <option key={choice.id} value={choice.id}>
+          {choice.label}
+        </option>
       ))}
     </select>
   );

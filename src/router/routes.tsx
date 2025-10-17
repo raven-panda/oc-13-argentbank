@@ -1,11 +1,11 @@
 import { createRootRoute, createRoute, Outlet } from '@tanstack/react-router';
-import HomePage from '@/views/HomePage';
+import HomePage from '@/views/home/HomePage';
 import MainLayout from '@/components/layout/MainLayout';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import SignInPage from '@/views/SignInPage';
-import BankAccountsPage from '@/views/BankAccountsPage';
+import SignInPage from '@/views/authentication/SignInPage';
+import BankAccountsPage from '@/views/dashboard/BankAccountsPage';
 import { RequireAuthentication } from '@/components/auth/AuthProviders';
-import TransactionPage from '@/views/TransactionPage';
+import TransactionPage from '@/views/dashboard/TransactionPage';
 
 export const rootRoute = createRootRoute({
   component: () => (
