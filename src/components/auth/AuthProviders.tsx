@@ -2,7 +2,7 @@ import type { User } from '@/api/definitions/user';
 import { useAppDispatch, useAppSelector } from '@/api/Hooks';
 import { authenticationApi } from '@/api/slices/AuthenticationSlice';
 import { Navigate } from '@tanstack/react-router';
-import { useMemo, type ReactNode } from 'react';
+import { useEffect, useMemo, type ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
 import { useAuth } from './hook/AuthHooks';
 
@@ -16,10 +16,15 @@ export type AuthState = {
 export function RequireAuthentication({ children }: { children: ReactNode }) {
   const { loading, isAuthenticated, logout } = useAuth();
 
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      logout();
+    }
+  }, [loading, isAuthenticated, logout]);
+
   if (loading) {
     return <div>Chargement...</div>;
   } else if (!isAuthenticated) {
-    logout();
     return <Navigate to="/sign-in" />;
   }
 

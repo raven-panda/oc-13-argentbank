@@ -21,7 +21,10 @@ export function TransactionsTable({
       <tbody>
         {transactions?.length ? (
           transactions.map((transaction) => (
-            <TransactionRow transaction={transaction} />
+            <TransactionRow
+              key={transactions.length + transaction.id}
+              transaction={transaction}
+            />
           ))
         ) : (
           <tr>

@@ -37,7 +37,7 @@ export default function TransactionPage() {
       </header>
       <main className={styles.bodyContainer}>
         <TransactionsTable
-          transactions={transactions?.sort(
+          transactions={[...(transactions ?? [])].sort(
             (ta, tb) =>
               new Date(tb.date).getTime() - new Date(ta.date).getTime(),
           )}
