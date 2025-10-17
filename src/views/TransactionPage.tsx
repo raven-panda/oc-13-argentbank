@@ -5,7 +5,7 @@ import { LoaderIndicator } from '../components/layout/LoaderIndicator';
 import {
   useBankAccount,
   useLastMonthTransactions,
-} from '../hook/BankAccountsHooks';
+} from '../api/hook/BankAccountsHooks';
 import { getAccountBalanceTypeLabel } from '../utils/BankAccountUtils';
 import { formatWithThousandsSeparator } from '../utils/FormatUtils';
 

@@ -8,7 +8,8 @@ import {
   TOKEN_COOKIE_NAME,
   TOKEN_EXPIRATION_MS,
 } from '../../definitions/constants';
-import { AuthContext, useAuth } from '../../hook/AuthHooks';
+import { useAuth } from './hook/AuthHooks';
+import { AuthContext } from './AuthContext';
 
 /* Type Definitions */
 export type AuthState = {

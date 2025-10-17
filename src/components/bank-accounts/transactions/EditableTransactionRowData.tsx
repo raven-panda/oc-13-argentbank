@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Transaction } from '../../../definitions/api/bank-account';
-import { useEditBankAccountTransaction } from '../../../hook/BankAccountsHooks';
+import { useEditBankAccountTransaction } from '../../../api/hook/BankAccountsHooks';
 import styles from '../../../assets/css/components/table.module.css';
 import type { EnumReferences } from '../../../definitions/api/enum-reference';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

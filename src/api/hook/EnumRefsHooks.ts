@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import {
   getTransactionCategoriesEnumReferences,
   getTransactionPaymentTypesEnumReferences,
-} from '../api/enum-references-api-queries';
-import type { ApiResponse } from '../definitions/api/api-response';
-import type { EnumReferences } from '../definitions/api/enum-reference';
+} from '../enum-references-api-queries';
+import type { ApiResponse } from '../../definitions/api/api-response';
+import type { EnumReferences } from '../../definitions/api/enum-reference';
 
 export function useTransactionEnumReferences() {
   const { data: paymentTypes, isLoading: isPaymentTypesLoading } = useQuery<
