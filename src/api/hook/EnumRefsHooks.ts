@@ -1,30 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
-import {
-  getTransactionCategoriesEnumReferences,
-  getTransactionPaymentTypesEnumReferences,
-} from '../queries/enum-references-api-queries';
-import type { ApiResponse } from '../definitions/api-response';
-import type { EnumReferences } from '../definitions/enum-reference';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../Hooks';
+import { transactionEnumRefsApi } from '../slices/enum-refs/TransactionEnumRefsSlice';
 
 export function useTransactionEnumReferences() {
-  const { data: paymentTypes, isLoading: isPaymentTypesLoading } = useQuery<
-    ApiResponse<EnumReferences | undefined>
-  >({
-    queryKey: ['getTransactionPaymentTypesEnumReferences'],
-    queryFn: async () => await getTransactionPaymentTypesEnumReferences(),
-    retry: false,
-  });
-  const { data: categories, isLoading: isCategoriesLoading } = useQuery<
-    ApiResponse<EnumReferences | undefined>
-  >({
-    queryKey: ['getTransactionCategoriesEnumReferences'],
-    queryFn: async () => await getTransactionCategoriesEnumReferences(),
-    retry: false,
-  });
+  const dispatch = useAppDispatch();
+  const paymentTypes = useAppSelector(
+    (state) => state.transactionEnumRefs.paymentTypesItems,
+  );
+  const categories = useAppSelector(
+    (state) => state.transactionEnumRefs.categoriesItems,
+  );
+  const isLoading = useAppSelector((state) => state.transactions.isLoading);
+
+  useEffect(() => {
+    dispatch(transactionEnumRefsApi.getPaymentTypes());
+    dispatch(transactionEnumRefsApi.getCategories());
+  }, [dispatch]);
 
   return {
-    paymentTypes: paymentTypes?.body,
-    categories: categories?.body,
-    isLoading: isPaymentTypesLoading || isCategoriesLoading,
+    paymentTypes,
+    categories,
+    isLoading,
   };
 }

@@ -81,7 +81,7 @@ export async function putBankAccountTransaction(
         updatedTransaction,
       ];
 
-    return updatedTransaction;
+    return buildApiResponseFixture(updatedTransaction);
   }
 
   throw new Error(

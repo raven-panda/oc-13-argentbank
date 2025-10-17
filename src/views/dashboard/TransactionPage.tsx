@@ -1,27 +1,22 @@
-import { useParams } from '@tanstack/react-router';
+import { useBankAccountWithLastMonthTransactions } from '@/api/hook/BankAccountsHooks';
 import styles from '@/assets/css/transactions-page.module.css';
 import { TransactionsTable } from '@/components/bank-accounts/transactions/TransactionsTable';
 import { LoaderIndicator } from '@/components/layout/LoaderIndicator';
-import {
-  useBankAccount,
-  useLastMonthTransactions,
-} from '@/api/hook/BankAccountsHooks';
 import { getAccountBalanceTypeLabel } from '@/utils/BankAccountUtils';
 import { formatWithThousandsSeparator } from '@/utils/FormatUtils';
+import { useParams } from '@tanstack/react-router';
 
 export default function TransactionPage() {
   const { bankAccountId } = useParams({
     from: '/protected/bank-account/$bankAccountId/transactions',
   });
-  const { bankAccount, isLoading: isBankAccountLoading } =
-    useBankAccount(bankAccountId);
-  const { transactions, isLoading: isTransactionsLoading } =
-    useLastMonthTransactions(bankAccountId);
+  const { bankAccount, transactions, isLoading } =
+    useBankAccountWithLastMonthTransactions(bankAccountId);
 
   return (
     <>
       <header className={styles.transactionsPageHeader}>
-        {isBankAccountLoading || isTransactionsLoading ? (
+        {isLoading ? (
           <LoaderIndicator />
         ) : (
           <>

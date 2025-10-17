@@ -1,67 +1,55 @@
-import { useQuery } from '@tanstack/react-query';
-import type {
-  BankAccountSummary,
-  Transaction,
-} from '../definitions/bank-account';
-import {
-  getBankAccountById,
-  getBankAccounts,
-  getLastMontTransactionsByBankAccountId,
-  putBankAccountTransaction,
-} from '../queries/bank-account-api-queries';
-import type { ApiResponse } from '../definitions/api-response';
-import { useState } from 'react';
-import client from '../../queryClient';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../Hooks';
+import { bankAccountsApi } from '../slices/BankAccountsSlice';
+import { transactionsApi } from '../slices/TransactionsSlice';
 
-export function useBankAccountsSummaries() {
-  const { data: bankAccounts, isLoading } = useQuery<
-    ApiResponse<BankAccountSummary[]>
-  >({
-    queryKey: ['getBankAccounts'],
-    queryFn: getBankAccounts,
-    retry: false,
-  });
+export function useBankAccounts() {
+  const dispatch = useAppDispatch();
+  const bankAccounts = useAppSelector((state) => state.bankAccount.items);
+  const isLoading = useAppSelector(
+    (state) => state.transactions.isLoading || state.bankAccount.isLoading,
+  );
 
-  return { bankAccounts: bankAccounts?.body, isLoading };
+  useEffect(() => {
+    dispatch(bankAccountsApi.getAll());
+  }, [dispatch]);
+
+  return { bankAccounts, isLoading };
 }
 
-export function useBankAccount(id: string) {
-  const { data: bankAccount, isLoading } = useQuery<
-    ApiResponse<BankAccountSummary | undefined>
-  >({
-    queryKey: ['getBankAccountById'],
-    queryFn: async () => await getBankAccountById(id),
-    retry: false,
-  });
+function useBankAccountById(accountId: string) {
+  const dispatch = useAppDispatch();
+  const bankAccount = useAppSelector((state) => state.bankAccount.selectedItem);
+  const isLoading = useAppSelector((state) => state.transactions.isLoading);
 
-  return { bankAccount: bankAccount?.body, isLoading };
+  useEffect(() => {
+    dispatch(bankAccountsApi.getById(accountId));
+  }, [dispatch, accountId]);
+
+  return { bankAccount, isLoading };
 }
 
-export function useLastMonthTransactions(id: string) {
-  const { data: transactions, isLoading } = useQuery<
-    ApiResponse<Transaction[] | undefined>
-  >({
-    queryKey: ['getLastMontTransactionsByBankAccountId'],
-    queryFn: async () => await getLastMontTransactionsByBankAccountId(id),
-    retry: false,
-  });
+function useLastMonthTransactions(accountId: string) {
+  const dispatch = useAppDispatch();
+  const transactions = useAppSelector((state) => state.transactions.items);
+  const isLoading = useAppSelector((state) => state.transactions.isLoading);
 
-  return { transactions: transactions?.body, isLoading };
+  useEffect(() => {
+    dispatch(transactionsApi.getLastMonth(accountId));
+  }, [dispatch, accountId]);
+
+  return { transactions, isLoading };
 }
 
-export function useEditBankAccountTransaction() {
-  const [isLoading, setIsLoading] = useState(false);
+export function useBankAccountWithLastMonthTransactions(accountId: string) {
+  const { bankAccount, isLoading: isBankAccountLoading } =
+    useBankAccountById(accountId);
+  const { transactions, isLoading: isTransactionsLoading } =
+    useLastMonthTransactions(accountId);
 
-  const editBankAccountTransaction = async (
-    updatedTransaction: Transaction,
-  ) => {
-    setIsLoading(true);
-    await putBankAccountTransaction(updatedTransaction.id, updatedTransaction);
-    client.invalidateQueries({
-      queryKey: ['getLastMontTransactionsByBankAccountId'],
-    });
-    setIsLoading(false);
+  return {
+    bankAccount,
+    transactions,
+    isLoading: isBankAccountLoading || isTransactionsLoading,
   };
-
-  return { editBankAccountTransaction, isLoading };
 }

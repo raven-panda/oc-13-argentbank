@@ -1,14 +1,13 @@
+import { useBankAccounts } from '@/api/hook/BankAccountsHooks';
 import styles from '@/assets/css/bank-accounts-page.module.css';
+import { useAuth } from '@/components/auth/hook/AuthHooks';
 import { BankAccountSummary } from '@/components/bank-accounts/BankAccountSummary';
 import { LoaderIndicator } from '@/components/layout/LoaderIndicator';
 import UsernameEdit from '@/components/profile/UsernameEdit';
-import { useAuth } from '@/components/auth/hook/AuthHooks';
-import { useBankAccountsSummaries } from '@/api/hook/BankAccountsHooks';
 
 export default function BankAccountsPage() {
   const { user, loading: userLoading } = useAuth();
-  const { bankAccounts, isLoading: bankAccountsLoading } =
-    useBankAccountsSummaries();
+  const { bankAccounts, isLoading } = useBankAccounts();
 
   if (!userLoading && !user) {
     return <>Une erreur s'est produite.</>;
@@ -22,7 +21,7 @@ export default function BankAccountsPage() {
         userLastName={user?.lastName}
         userLoading={userLoading}
       />
-      {bankAccountsLoading ? (
+      {isLoading ? (
         <LoaderIndicator />
       ) : bankAccounts && bankAccounts.length > 0 ? (
         <ul className={styles.bankAccountsSummariesContainer}>

@@ -1,11 +1,12 @@
+import type { Transaction } from '@/api/definitions/bank-account';
+import type { EnumReferences } from '@/api/definitions/enum-reference';
+import { useAppDispatch } from '@/api/Hooks';
+import { transactionsApi } from '@/api/slices/transactionsSlice';
+import styles from '@/assets/css/components/table.module.css';
+import SelectInput from '@/components/form/input/SelectInput';
 import { faCheck, faPen, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import type { Transaction } from '../../../api/definitions/bank-account';
-import type { EnumReferences } from '../../../api/definitions/enum-reference';
-import { useEditBankAccountTransaction } from '../../../api/hook/BankAccountsHooks';
-import styles from '../../../assets/css/components/table.module.css';
-import SelectInput from '../../form/input/SelectInput';
 
 export default function EditableTransactionRowData({
   transaction,
@@ -16,12 +17,12 @@ export default function EditableTransactionRowData({
   categories: EnumReferences | undefined;
   isRefsLoading: boolean;
 }) {
+  const dispatch = useAppDispatch();
+
   const [isEditingCategory, setEditingCategory] = useState(false);
   const [isEditingNotes, setEditingNotes] = useState(false);
   const [editedCategory, setEditedCategory] = useState(transaction.category);
   const [editedUserNote, setEditedUserNote] = useState(transaction.userNotes);
-  const { editBankAccountTransaction, isLoading: isEditTransactionLoading } =
-    useEditBankAccountTransaction();
 
   const getCategoryLabel = () => {
     if (isRefsLoading) return 'Loading...';
@@ -33,34 +34,32 @@ export default function EditableTransactionRowData({
   };
 
   const toggleEditCategory = async (cancel: boolean = false) => {
-    if (isEditTransactionLoading) return;
-
     if (isEditingCategory && !cancel)
-      await editBankAccountTransaction({
-        ...transaction,
-        category: editedCategory,
-      });
+      await dispatch(
+        transactionsApi.update({
+          ...transaction,
+          category: editedCategory,
+        }),
+      );
 
     setEditedCategory(transaction.userNotes);
     setEditingCategory((prev) => !prev);
   };
 
   const toggleEditNotes = async (cancel: boolean = false) => {
-    if (isEditTransactionLoading) return;
-
     if (isEditingNotes && !cancel)
-      await editBankAccountTransaction({
-        ...transaction,
-        userNotes: editedUserNote,
-      });
+      await dispatch(
+        transactionsApi.update({
+          ...transaction,
+          userNotes: editedUserNote,
+        }),
+      );
 
     setEditedUserNote(transaction.userNotes);
     setEditingNotes((prev) => !prev);
   };
 
-  return isEditTransactionLoading ? (
-    <p>Loading...</p>
-  ) : (
+  return (
     <>
       <div className={styles.transactionEditDetail}>
         <p>
