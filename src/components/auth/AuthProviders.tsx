@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: string;
         rememberMe: boolean;
       }) => {
-        await dispatch(authenticationActions.login(props));
+        await dispatch(authenticationActions.login(props)).unwrap();
       },
       logout: () => dispatch(authenticationActions.logout()),
     }),

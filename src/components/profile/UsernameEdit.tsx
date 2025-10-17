@@ -39,7 +39,6 @@ export default function UsernameEdit({
         lastName: userLastName,
       })}
       onSubmit={async ({ firstName, lastName }) => {
-        console.log({ firstName, lastName });
         await editUsername(firstName, lastName);
         setEditing(false);
         return undefined;

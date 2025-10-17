@@ -51,15 +51,14 @@ export const authenticationActions = {
       try {
         const { status, body } = await postUserLogin(credentials);
         if (status !== 200) throw new Error('Invalid login');
-        cookies.set(TOKEN_COOKIE_NAME, body.token, {
+        cookies.set(TOKEN_COOKIE_NAME, body?.token, {
           path: '/',
           expires: new Date(Date.now() + TOKEN_EXPIRATION_MS),
           sameSite: 'strict',
         });
-        return body.token;
+        return body?.token;
       } catch (err: any) {
-        console.error({ err });
-        return rejectWithValue({ isAuthenticated: false });
+        return rejectWithValue(err.response?.data);
       }
     },
   ),

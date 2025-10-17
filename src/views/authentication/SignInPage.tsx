@@ -4,9 +4,10 @@ import Form from '@/components/form/main/Form';
 import { getUserAuthForm } from '@/components/form/schema/auth-form/AuthFormSchema';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AxiosError } from 'axios';
+import { useNavigate } from '@tanstack/react-router';
 
 export default function SignInPage() {
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   return (
@@ -26,8 +27,9 @@ export default function SignInPage() {
                 rememberMe: value.rememberMe,
               });
               success = true;
-            } catch (e) {
-              if (e instanceof AxiosError && e.status === 400)
+              navigate({ to: '/bank-account' });
+            } catch (e: any) {
+              if ('status' in e && e.status === 400)
                 error =
                   'No account found for given email and password. Try again.';
             }
