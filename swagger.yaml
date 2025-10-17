@@ -98,8 +98,8 @@ paths:
                 properties:
                   body:
                     $ref: '#/definitions/Profile'
-        '400':
-          description: Invalid Fields
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
           schema:
             $ref: '#/definitions/ApiResponse'
         '500':
@@ -141,6 +141,10 @@ paths:
           description: Invalid Fields
           schema:
             $ref: '#/definitions/ApiResponse'
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
         '500':
           description: Internal Server Error
           schema:
@@ -175,6 +179,10 @@ paths:
                       $ref: '#/definitions/BankAccountSummary'
         '400':
           description: Invalid Fields
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
           schema:
             $ref: '#/definitions/ApiResponse'
         '500':
@@ -216,6 +224,18 @@ paths:
           description: Invalid Fields
           schema:
             $ref: '#/definitions/ApiResponse'
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '403':
+          description: Forbidden access Error, thrown if authenticated user doesn't have access to this resource
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Not found Error, thrown if the requested resource was not found
+          schema:
+            $ref: '#/definitions/ApiResponse'
         '500':
           description: Internal Server Error
           schema:
@@ -251,6 +271,18 @@ paths:
                 properties:
                   body:
                     $ref: '#/definitions/Transaction'
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '403':
+          description: Forbidden access Error, thrown if authenticated user doesn't have access to this resource
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Not found Error, thrown if the requested resource was not found
+          schema:
+            $ref: '#/definitions/ApiResponse'
         '500':
           description: Internal Server Error
           schema:
@@ -295,19 +327,36 @@ paths:
           description: Invalid Fields
           schema:
             $ref: '#/definitions/ApiResponse'
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '403':
+          description: Forbidden access Error, thrown if authenticated user doesn't have access to this resource
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Not found Error, thrown if the requested resource was not found
+          schema:
+            $ref: '#/definitions/ApiResponse'
         '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ApiResponse'
-  /transactions/last-month:
+  /bank-accounts/{id}/transactions/last-month:
     get:
       security:
         - Bearer: []
       tags:
         - Transactions Module
       summary: Get transactions registered in the last 30 days
-      description: Retrieves transaction data identified by the given ID registered in the last month
+      description: Retrieves transactions data of the bank account identified by the given ID registered in the last month
       parameters:
+        - in: path
+          name: id
+          description: Bank account ID
+          type: integer
+          required: true
         - in: header
           name: Authorization
           type: string
@@ -326,17 +375,29 @@ paths:
                   body:
                     type: array
                     items:
-                      $ref: '#/definitions/Transaction'     
+                      $ref: '#/definitions/Transaction'   
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '403':
+          description: Forbidden access Error, thrown if authenticated user doesn't have access to this resource
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Not found Error, thrown if the requested resource was not found
+          schema:
+            $ref: '#/definitions/ApiResponse'  
         '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ApiResponse'
-  /transactions-types:
+  /enum-refs/transactions-types:
     get:
       security:
         - Bearer: []
       tags:
-        - Transactions Module
+        - Enum References Module
       summary: Get transactions categories
       description: Fetches available transaction types
       parameters:
@@ -359,16 +420,20 @@ paths:
                     type: array
                     items:
                       $ref: "#/definitions/TransactionPaymentType"
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
         '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ApiResponse'
-  /transactions-categories:
+  /enum-refs/transactions-categories:
     get:
       security:
         - Bearer: []
       tags:
-        - Transactions Module
+        - Enum References Module
       summary: Get transactions categories
       description: Fetches available transaction categories
       parameters:
@@ -391,6 +456,10 @@ paths:
                     type: array
                     items:
                       $ref: "#/definitions/TransactionCategory"
+        '401':
+          description: Authentication Error, thrown if invalid or no credentials was used for authentication
+          schema:
+            $ref: '#/definitions/ApiResponse'
         '500':
           description: Internal Server Error
           schema:
@@ -428,6 +497,9 @@ definitions:
       password:
         type: string
         description: user password
+      rememberMe:
+        type: boolean
+        description: true if user wants to stay logged in after current session end
   UserProfileUpdateRequest:
     description: Request body for user profile PUT endpoint
     type: object
