@@ -5,13 +5,13 @@ import {
   getBankAccounts,
 } from '../queries/bank-account-api-queries';
 
-interface TransactionsState {
+interface BankAccountsState {
   items: BankAccountSummary[];
   selectedItem: BankAccountSummary | undefined;
   isLoading: boolean;
 }
 
-const initialState: TransactionsState = {
+const initialState: BankAccountsState = {
   items: [],
   selectedItem: undefined,
   isLoading: false,

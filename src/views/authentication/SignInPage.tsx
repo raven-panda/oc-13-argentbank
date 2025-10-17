@@ -22,15 +22,13 @@ export default function SignInPage() {
             let success = false;
             let error: string | undefined;
             try {
-              const loginResponse = await login({
+              await login({
                 email: value.email,
                 password: value.password,
+                rememberMe: value.rememberMe,
               });
-
-              success = loginResponse.status === 200;
-              console.log(loginResponse);
-
-              if (success) navigate({ to: '/bank-account' });
+              success = true;
+              navigate({ to: '/bank-account' });
             } catch (e) {
               if (e instanceof AxiosError && e.status === 400)
                 error =

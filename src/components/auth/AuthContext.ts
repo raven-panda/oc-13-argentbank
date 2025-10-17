@@ -1,20 +1,19 @@
-import type { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { createContext } from 'react';
 import type { AuthState } from './AuthProviders';
 
 /* Type Definitions */
 type AuthContextType = AuthState & {
   isAuthenticated: boolean;
-  login: UseMutateAsyncFunction<
-    any,
-    Error,
-    {
-      email: string;
-      password: string;
-    },
-    unknown
-  >;
-  logout: UseMutateAsyncFunction<void, Error, void, unknown>;
+  login: ({
+    email,
+    password,
+    rememberMe,
+  }: {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  }) => Promise<void>;
+  logout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(

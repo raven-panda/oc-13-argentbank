@@ -5,13 +5,13 @@ import {
 } from '@/api/queries/enum-references-api-queries';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-interface TransactionsState {
+interface TransactionsEnumRefsState {
   paymentTypesItems: EnumReferences;
   categoriesItems: EnumReferences;
   isLoading: boolean;
 }
 
-const initialState: TransactionsState = {
+const initialState: TransactionsEnumRefsState = {
   paymentTypesItems: [],
   categoriesItems: [],
   isLoading: false,
