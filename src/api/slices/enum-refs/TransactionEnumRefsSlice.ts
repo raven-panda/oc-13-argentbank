@@ -17,7 +17,7 @@ const initialState: TransactionsEnumRefsState = {
   isLoading: false,
 };
 
-export const transactionEnumRefsApi = {
+export const transactionEnumRefsActions = {
   getPaymentTypes: createAsyncThunk(
     'transactionEnumRefs/getPaymentTypes',
     async () => {
@@ -41,33 +41,33 @@ const transactionEnumRefsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Fetch payment type case
-      .addCase(transactionEnumRefsApi.getPaymentTypes.pending, (state) => {
+      .addCase(transactionEnumRefsActions.getPaymentTypes.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(
-        transactionEnumRefsApi.getPaymentTypes.fulfilled,
+        transactionEnumRefsActions.getPaymentTypes.fulfilled,
         (state, action) => {
           const bankAccounts = action.payload;
           state.paymentTypesItems = bankAccounts;
           state.isLoading = false;
         },
       )
-      .addCase(transactionEnumRefsApi.getPaymentTypes.rejected, (state) => {
+      .addCase(transactionEnumRefsActions.getPaymentTypes.rejected, (state) => {
         state.isLoading = false;
       })
       // Fetch by id case
-      .addCase(transactionEnumRefsApi.getCategories.pending, (state) => {
+      .addCase(transactionEnumRefsActions.getCategories.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(
-        transactionEnumRefsApi.getCategories.fulfilled,
+        transactionEnumRefsActions.getCategories.fulfilled,
         (state, action) => {
           const bankAccounts = action.payload;
           state.categoriesItems = bankAccounts;
           state.isLoading = false;
         },
       )
-      .addCase(transactionEnumRefsApi.getCategories.rejected, (state) => {
+      .addCase(transactionEnumRefsActions.getCategories.rejected, (state) => {
         state.isLoading = false;
       });
   },

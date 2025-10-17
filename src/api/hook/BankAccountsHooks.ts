@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../Hooks';
-import { bankAccountsApi } from '../slices/BankAccountsSlice';
-import { transactionsApi } from '../slices/TransactionsSlice';
+import { bankAccountsActions } from '../slices/BankAccountsSlice';
+import { transactionsActions } from '../slices/TransactionsSlice';
 
 export function useBankAccounts() {
   const dispatch = useAppDispatch();
@@ -11,7 +11,7 @@ export function useBankAccounts() {
   );
 
   useEffect(() => {
-    dispatch(bankAccountsApi.getAll());
+    dispatch(bankAccountsActions.getAll());
   }, [dispatch]);
 
   return { bankAccounts, isLoading };
@@ -23,7 +23,7 @@ function useBankAccountById(accountId: string) {
   const isLoading = useAppSelector((state) => state.transactions.isLoading);
 
   useEffect(() => {
-    dispatch(bankAccountsApi.getById(accountId));
+    dispatch(bankAccountsActions.getById(accountId));
   }, [dispatch, accountId]);
 
   return { bankAccount, isLoading };
@@ -35,7 +35,7 @@ function useLastMonthTransactions(accountId: string) {
   const isLoading = useAppSelector((state) => state.transactions.isLoading);
 
   useEffect(() => {
-    dispatch(transactionsApi.getLastMonth(accountId));
+    dispatch(transactionsActions.getLastMonth(accountId));
   }, [dispatch, accountId]);
 
   return { transactions, isLoading };

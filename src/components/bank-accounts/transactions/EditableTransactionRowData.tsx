@@ -1,7 +1,7 @@
 import type { Transaction } from '@/api/definitions/bank-account';
 import type { EnumReferences } from '@/api/definitions/enum-reference';
 import { useAppDispatch } from '@/api/Hooks';
-import { transactionsApi } from '@/api/slices/transactionsSlice';
+import { transactionsActions } from '@/api/slices/transactionsSlice';
 import styles from '@/assets/css/components/table.module.css';
 import SelectInput from '@/components/form/input/SelectInput';
 import { faCheck, faPen, faX } from '@fortawesome/free-solid-svg-icons';
@@ -36,7 +36,7 @@ export default function EditableTransactionRowData({
   const toggleEditCategory = async (cancel: boolean = false) => {
     if (isEditingCategory && !cancel)
       await dispatch(
-        transactionsApi.update({
+        transactionsActions.update({
           ...transaction,
           category: editedCategory,
         }),
@@ -49,7 +49,7 @@ export default function EditableTransactionRowData({
   const toggleEditNotes = async (cancel: boolean = false) => {
     if (isEditingNotes && !cancel)
       await dispatch(
-        transactionsApi.update({
+        transactionsActions.update({
           ...transaction,
           userNotes: editedUserNote,
         }),

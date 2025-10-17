@@ -4,6 +4,7 @@ import {
   getLastMontTransactionsByBankAccountId,
   putBankAccountTransaction,
 } from '../queries/bank-account-api-queries';
+import { authenticationActions } from './AuthenticationSlice';
 
 interface TransactionsState {
   items: Transaction[];
@@ -16,7 +17,7 @@ const initialState: TransactionsState = {
 };
 
 // Thunk for async getting transactions
-export const transactionsApi = {
+export const transactionsActions = {
   getLastMonth: createAsyncThunk(
     'transactions/fetchLastMonthByAccount',
     async (accountId: string) => {
@@ -43,22 +44,22 @@ const transactionsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Fetch all case
-      .addCase(transactionsApi.getLastMonth.pending, (state) => {
+      .addCase(transactionsActions.getLastMonth.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(transactionsApi.getLastMonth.fulfilled, (state, action) => {
+      .addCase(transactionsActions.getLastMonth.fulfilled, (state, action) => {
         const transactions = action.payload;
         state.items = transactions;
         state.isLoading = false;
       })
-      .addCase(transactionsApi.getLastMonth.rejected, (state) => {
+      .addCase(transactionsActions.getLastMonth.rejected, (state) => {
         state.isLoading = false;
       })
       // Update case
-      .addCase(transactionsApi.update.pending, (state) => {
+      .addCase(transactionsActions.update.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(transactionsApi.update.fulfilled, (state, action) => {
+      .addCase(transactionsActions.update.fulfilled, (state, action) => {
         state.isLoading = false;
         if (action.payload) {
           const index = state.items.findIndex(
@@ -67,9 +68,11 @@ const transactionsSlice = createSlice({
           if (index !== -1) state.items[index] = action.payload;
         }
       })
-      .addCase(transactionsApi.update.rejected, (state) => {
+      .addCase(transactionsActions.update.rejected, (state) => {
         state.isLoading = false;
-      });
+      })
+      // Logout fallback, clear all data
+      .addCase(authenticationActions.logout.fulfilled, () => initialState);
   },
 });
 

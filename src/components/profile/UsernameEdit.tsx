@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/api/Hooks';
-import { authenticationApi } from '@/api/slices/AuthenticationSlice';
+import { authenticationActions } from '@/api/slices/AuthenticationSlice';
 import styles from '@/assets/css/components/username-edit.module.css';
 import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +24,7 @@ export default function UsernameEdit({
     if (userFirstName === newFirstName && userLastName === newLastName) return;
 
     await dispatch(
-      authenticationApi.editUserProfile({
+      authenticationActions.editUserProfile({
         firstName: newFirstName,
         lastName: newLastName,
       }),

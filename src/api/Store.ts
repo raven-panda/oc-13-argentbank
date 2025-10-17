@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { transactionsReducer } from './slices/TransactionsSlice';
+import { authenticationReducer } from './slices/AuthenticationSlice';
 import { bankAccountReducer } from './slices/BankAccountsSlice';
 import { transactionEnumRefsReducer } from './slices/enum-refs/TransactionEnumRefsSlice';
-import { authenticationReducer } from './slices/AuthenticationSlice';
+import { transactionsReducer } from './slices/TransactionsSlice';
 
 export const store = configureStore({
   reducer: {

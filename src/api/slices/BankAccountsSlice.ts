@@ -4,6 +4,7 @@ import {
   getBankAccountById,
   getBankAccounts,
 } from '../queries/bank-account-api-queries';
+import { authenticationActions } from './AuthenticationSlice';
 
 interface BankAccountsState {
   items: BankAccountSummary[];
@@ -17,7 +18,7 @@ const initialState: BankAccountsState = {
   isLoading: false,
 };
 
-export const bankAccountsApi = {
+export const bankAccountsActions = {
   getAll: createAsyncThunk('bankAccounts/getAll', async () => {
     const data = await getBankAccounts();
     return data.body;
@@ -38,29 +39,31 @@ const bankAccountsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Fetch all case
-      .addCase(bankAccountsApi.getAll.pending, (state) => {
+      .addCase(bankAccountsActions.getAll.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(bankAccountsApi.getAll.fulfilled, (state, action) => {
+      .addCase(bankAccountsActions.getAll.fulfilled, (state, action) => {
         const bankAccounts = action.payload;
         state.items = bankAccounts;
         state.isLoading = false;
       })
-      .addCase(bankAccountsApi.getAll.rejected, (state) => {
+      .addCase(bankAccountsActions.getAll.rejected, (state) => {
         state.isLoading = false;
       })
       // Fetch by id case
-      .addCase(bankAccountsApi.getById.pending, (state) => {
+      .addCase(bankAccountsActions.getById.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(bankAccountsApi.getById.fulfilled, (state, action) => {
+      .addCase(bankAccountsActions.getById.fulfilled, (state, action) => {
         const bankAccount = action.payload;
         state.selectedItem = bankAccount;
         state.isLoading = false;
       })
-      .addCase(bankAccountsApi.getById.rejected, (state) => {
+      .addCase(bankAccountsActions.getById.rejected, (state) => {
         state.isLoading = false;
-      });
+      })
+      // Logout fallback, clear all data
+      .addCase(authenticationActions.logout.fulfilled, () => initialState);
   },
 });
 

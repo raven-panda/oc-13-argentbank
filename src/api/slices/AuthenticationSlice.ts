@@ -19,12 +19,12 @@ interface AuthenticationState {
 
 const initialState: AuthenticationState = {
   profile: undefined,
-  accessToken: undefined,
+  accessToken: cookies.get(TOKEN_COOKIE_NAME),
   isLoading: false,
   isAuthenticated: false,
 };
 
-export const authenticationApi = {
+export const authenticationActions = {
   getProfile: createAsyncThunk('authentication/getProfile', async () => {
     const data = await postUserProfile();
     return data.body;
@@ -56,7 +56,7 @@ export const authenticationApi = {
           expires: new Date(Date.now() + TOKEN_EXPIRATION_MS),
           sameSite: 'strict',
         });
-        return { isAuthenticated: true, accessToken: body.token };
+        return body.token;
       } catch (err: any) {
         console.error({ err });
         return rejectWithValue({ isAuthenticated: false });
@@ -76,48 +76,47 @@ const authenticationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Login case
-      .addCase(authenticationApi.login.pending, (state) => {
+      .addCase(authenticationActions.login.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(authenticationApi.login.fulfilled, (state, action) => {
-        state.isAuthenticated = action.payload.isAuthenticated;
-        state.accessToken = action.payload.accessToken;
+      .addCase(authenticationActions.login.fulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.accessToken = action.payload;
         state.isLoading = false;
       })
-      .addCase(authenticationApi.login.rejected, (state) => {
+      .addCase(authenticationActions.login.rejected, (state) => {
         state.isLoading = false;
       })
       // Logout case
-      .addCase(authenticationApi.logout.pending, (state) => {
+      .addCase(authenticationActions.logout.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(authenticationApi.logout.fulfilled, (state) => {
-        state.isAuthenticated = false;
-        state.accessToken = undefined;
-        state.isLoading = false;
-      })
+      .addCase(authenticationActions.logout.fulfilled, () => initialState)
       // Fetch user profile
-      .addCase(authenticationApi.getProfile.pending, (state) => {
+      .addCase(authenticationActions.getProfile.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(authenticationApi.getProfile.fulfilled, (state, action) => {
+      .addCase(authenticationActions.getProfile.fulfilled, (state, action) => {
         const profile = action.payload;
         state.profile = profile;
         state.isLoading = false;
       })
-      .addCase(authenticationApi.getProfile.rejected, (state) => {
+      .addCase(authenticationActions.getProfile.rejected, (state) => {
         state.isLoading = false;
       })
       // Edit user profile
-      .addCase(authenticationApi.editUserProfile.pending, (state) => {
+      .addCase(authenticationActions.editUserProfile.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(authenticationApi.editUserProfile.fulfilled, (state, action) => {
-        const profile = action.payload;
-        state.profile = profile;
-        state.isLoading = false;
-      })
-      .addCase(authenticationApi.editUserProfile.rejected, (state) => {
+      .addCase(
+        authenticationActions.editUserProfile.fulfilled,
+        (state, action) => {
+          const profile = action.payload;
+          state.profile = profile;
+          state.isLoading = false;
+        },
+      )
+      .addCase(authenticationActions.editUserProfile.rejected, (state) => {
         state.isLoading = false;
       });
   },

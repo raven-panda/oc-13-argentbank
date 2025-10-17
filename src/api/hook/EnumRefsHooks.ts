@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../Hooks';
-import { transactionEnumRefsApi } from '../slices/enum-refs/TransactionEnumRefsSlice';
+import { transactionEnumRefsActions } from '../slices/enum-refs/TransactionEnumRefsSlice';
 
 export function useTransactionEnumReferences() {
   const dispatch = useAppDispatch();
@@ -13,8 +13,8 @@ export function useTransactionEnumReferences() {
   const isLoading = useAppSelector((state) => state.transactions.isLoading);
 
   useEffect(() => {
-    dispatch(transactionEnumRefsApi.getPaymentTypes());
-    dispatch(transactionEnumRefsApi.getCategories());
+    dispatch(transactionEnumRefsActions.getPaymentTypes());
+    dispatch(transactionEnumRefsActions.getCategories());
   }, [dispatch]);
 
   return {

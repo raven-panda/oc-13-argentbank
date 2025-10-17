@@ -1,6 +1,6 @@
 import type { User } from '@/api/definitions/user';
 import { useAppDispatch, useAppSelector } from '@/api/Hooks';
-import { authenticationApi } from '@/api/slices/AuthenticationSlice';
+import { authenticationActions } from '@/api/slices/AuthenticationSlice';
 import { Navigate } from '@tanstack/react-router';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
@@ -48,10 +48,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: string;
         rememberMe: boolean;
       }) => {
-        await dispatch(authenticationApi.login(props));
-        await dispatch(authenticationApi.getProfile());
+        await dispatch(authenticationActions.login(props));
+        await dispatch(authenticationActions.getProfile());
       },
-      logout: () => dispatch(authenticationApi.logout()),
+      logout: () => dispatch(authenticationActions.logout()),
     }),
     [profile, isAuthenticated, accessToken, isLoading, dispatch],
   );
